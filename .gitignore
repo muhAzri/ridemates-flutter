@@ -113,3 +113,16 @@ app.*.map.json
 
 # Generated l10n files
 lib/l10n/gen/
+# Firebase
+firebase-debug.log
+.firebase/
+.firebaserc
+firebase.json
+# Firebase generated config (per-platform API keys / app ids).
+# Regenerate locally with `flutterfire configure`; never commit.
+lib/firebase_options.dart
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+ios/firebase_app_id_file.json
+macos/Runner/GoogleService-Info.plist
+macos/firebase_app_id_file.json
