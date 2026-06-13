@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required for runtime font fetching (google_fonts) and all REST/SSE API calls. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="${appName}"
         android:name="${applicationName}"
