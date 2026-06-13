@@ -1,22 +1,26 @@
-/// Per-flavor configuration. Each `main_*.dart` entrypoint should set
-/// [AppConfig.instance] before calling `bootstrap`.
+/// App-wide configuration.
+///
+/// Runtime values (e.g. the API base URL) are injected at build/run time via
+/// `--dart-define-from-file=env.json` and read here with
+/// [String.fromEnvironment]. Each `main_*.dart` entrypoint sets [instance] with
+/// its flavor before `bootstrap` runs.
 class AppConfig {
   const AppConfig({required this.flavor, required this.apiBaseUrl});
 
-  const AppConfig.development()
-    : flavor = AppFlavor.development,
-      apiBaseUrl = 'https://api.ridemates.app/api/v1';
+  /// Builds the config for [flavor], pulling runtime values from the
+  /// environment (env.json, via `--dart-define-from-file`).
+  factory AppConfig.fromEnvironment(AppFlavor flavor) =>
+      AppConfig(flavor: flavor, apiBaseUrl: _apiBaseUrl);
 
-  const AppConfig.staging()
-    : flavor = AppFlavor.staging,
-      apiBaseUrl = 'https://api.staging.ridemates.app/api/v1';
+  /// API base URL, supplied by `env.json` (`API_BASE_URL`). Falls back to the
+  /// deployed Vercel backend so tests/tooling without the define still work.
+  static const String _apiBaseUrl = String.fromEnvironment(
+    'API_BASE_URL',
+    defaultValue: 'https://ride-mates-nu.vercel.app/api/v1',
+  );
 
-  const AppConfig.production()
-    : flavor = AppFlavor.production,
-      apiBaseUrl = 'https://api.ridemates.app/api/v1';
-
-  /// The active configuration. Defaults to development.
-  static AppConfig instance = const AppConfig.development();
+  /// The active configuration. Overridden by each `main_*.dart` entrypoint.
+  static AppConfig instance = AppConfig.fromEnvironment(AppFlavor.development);
 
   final AppFlavor flavor;
   final String apiBaseUrl;
