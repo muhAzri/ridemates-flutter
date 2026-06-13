@@ -126,3 +126,8 @@ ios/Runner/GoogleService-Info.plist
 ios/firebase_app_id_file.json
 macos/Runner/GoogleService-Info.plist
 macos/firebase_app_id_file.json
+
+# Dart-define env files (may hold secrets). Copy env.example.json -> env.json.
+env.json
+env.*.json
+!env.example.json
