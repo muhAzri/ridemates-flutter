@@ -11,9 +11,15 @@ dependencies:
   bloc: ^9.2.0
   dio: ^5.9.2
   eventflux: ^2.2.1
+  firebase_analytics: ^12.4.2
+  firebase_core: ^4.10.0
+  firebase_crashlytics: ^5.2.3
+  firebase_messaging: ^16.3.0
+  firebase_performance: ^0.11.4+2
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_local_notifications: ^22.0.0
   flutter_localizations:
     sdk: flutter
   freezed_annotation: ^3.1.0
