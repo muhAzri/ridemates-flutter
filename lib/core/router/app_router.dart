@@ -1,4 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ridemates/core/analytics/analytics_service.dart';
+import 'package:ridemates/core/di/injection.dart';
 import 'package:ridemates/features/counter/counter.dart';
 
 /// Centralised route names/paths so navigation stays type-safe-ish and
@@ -11,6 +14,7 @@ abstract final class AppRoutes {
 GoRouter createRouter() {
   return GoRouter(
     initialLocation: AppRoutes.home,
+    observers: _analyticsObservers(),
     routes: [
       GoRoute(
         path: AppRoutes.home,
@@ -19,4 +23,14 @@ GoRouter createRouter() {
       ),
     ],
   );
+}
+
+/// Auto-logs screen views to Firebase Analytics. Skipped gracefully when
+/// Firebase isn't initialised (e.g. in widget tests).
+List<NavigatorObserver> _analyticsObservers() {
+  try {
+    return [getIt<AnalyticsService>().navigatorObserver];
+  } on Object {
+    return const [];
+  }
 }
