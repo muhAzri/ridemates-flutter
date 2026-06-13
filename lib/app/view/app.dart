@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ridemates/counter/counter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ridemates/core/di/injection.dart';
+import 'package:ridemates/core/theme/theme.dart';
 import 'package:ridemates/l10n/l10n.dart';
 
 class App extends StatelessWidget {
@@ -7,16 +9,11 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        ),
-        useMaterial3: true,
-      ),
+    return MaterialApp.router(
+      theme: AppTheme.light,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      routerConfig: getIt<GoRouter>(),
     );
   }
 }
