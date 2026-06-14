@@ -69,22 +69,29 @@ android {
             dimension = "default"
             applicationIdSuffix = ""
             manifestPlaceholders["appName"] = "Ridemates"
+            // Production is the only flavor signed with the upload keystore.
+            signingConfig = signingConfigs.getByName("release")
         }
         create("staging") {
             dimension = "default"
             applicationIdSuffix = ".stg"
             manifestPlaceholders["appName"] = "[STG] Ridemates"
+            // No production keystore needed: sign with debug so it's installable.
+            signingConfig = signingConfigs.getByName("debug")
         }
         create("development") {
             dimension = "default"
             applicationIdSuffix = ".dev"
             manifestPlaceholders["appName"] = "[DEV] Ridemates"
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
     buildTypes {
         getByName("release") {
-            signingConfig = signingConfigs.getByName("release")
+            // Signing comes from the active flavor (production = upload keystore,
+            // staging/development = debug). Do not set it here so it isn't forced
+            // onto every flavor.
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
