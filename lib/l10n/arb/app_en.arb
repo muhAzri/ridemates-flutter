@@ -1,7 +1,65 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
+
+    "homeTitle": "Home",
+    "@homeTitle": { "description": "Title of the placeholder home screen" },
+    "homeComingSoonMessage": "Your community feed is coming soon.",
+
+    "appTagline": "Find your cycling community.",
+    "@appTagline": { "description": "Brand tagline shown under the logo" },
+
+    "loginFormTitle": "Sign in to your account",
+    "emailFieldLabel": "Email",
+    "emailFieldHint": "you@email.com",
+    "passwordFieldLabel": "Password",
+    "orSeparator": "or",
+    "continueWithGoogleButton": "Continue with Google",
+
+    "createAccountHeroTitle": "RideMates",
+    "@createAccountHeroTitle": { "description": "Brand name in the sign-up hero" },
+    "createAccountFormTitle": "Create your account",
+    "passwordRequirementHelper": "8+ characters with a number.",
+    "createAccountButton": "Create account",
+    "alreadyHaveAccountPrompt": "Already a member?",
+    "logInLink": "Log in",
+
+    "loginHeroTitle": "Welcome back",
+    "loginHeroSubtitle": "Your community is waiting.",
+    "forgotPasswordLink": "Forgot?",
+    "logInButton": "Log in",
+    "noAccountPrompt": "New to RideMates?",
+    "signUpLink": "Sign up",
+
+    "profileSetupTitle": "Set up profile",
+    "profileSetupStep": "{current} / {total}",
+    "@profileSetupStep": {
+        "description": "Step indicator on the profile setup flow",
+        "placeholders": {
+            "current": { "type": "int" },
+            "total": { "type": "int" }
+        }
+    },
+    "displayNameLabel": "Display name",
+    "displayNameHint": "Your display name",
+    "ridePreferenceQuestion": "What do you ride?",
+    "shortBioLabel": "Short bio",
+    "shortBioHint": "Tell the community a bit about your riding…",
+    "addPhotoLabel": "Add photo",
+    "continueButton": "Continue",
+
+    "cyclingTypeRoad": "Road",
+    "cyclingTypeMtb": "MTB",
+    "cyclingTypeGravel": "Gravel",
+    "cyclingTypeFolding": "Folding",
+    "cyclingTypeCasual": "Casual",
+
+    "validationEmailRequired": "Email is required.",
+    "validationEmailInvalid": "Enter a valid email.",
+    "validationPasswordRequired": "Password is required.",
+    "validationPasswordWeak": "Use 8+ characters including a number.",
+    "validationDisplayNameRequired": "Display name is required.",
+
+    "loginFailedMessage": "Could not sign in. Please try again.",
+    "signUpFailedMessage": "Could not create your account. Please try again.",
+    "profileSaveFailedMessage": "Could not save your profile. Please try again."
 }
