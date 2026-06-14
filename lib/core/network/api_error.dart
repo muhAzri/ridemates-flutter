@@ -10,8 +10,7 @@ part 'api_error.g.dart';
 /// body, then read [ApiErrorEnvelope.error].
 @freezed
 abstract class ApiErrorEnvelope with _$ApiErrorEnvelope {
-  const factory ApiErrorEnvelope({required ApiError error}) =
-      _ApiErrorEnvelope;
+  const factory ApiErrorEnvelope({required ApiError error}) = _ApiErrorEnvelope;
 
   factory ApiErrorEnvelope.fromJson(Map<String, dynamic> json) =>
       _$ApiErrorEnvelopeFromJson(json);

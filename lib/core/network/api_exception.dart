@@ -32,8 +32,7 @@ class ApiException implements Exception {
       DioExceptionType.connectionError ||
       DioExceptionType.connectionTimeout ||
       DioExceptionType.receiveTimeout ||
-      DioExceptionType.sendTimeout =>
-        true,
+      DioExceptionType.sendTimeout => true,
       _ => false,
     };
 
