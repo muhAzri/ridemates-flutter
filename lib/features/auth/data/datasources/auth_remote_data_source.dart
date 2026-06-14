@@ -22,6 +22,9 @@ class AuthRemoteDataSource {
     required String password,
   }) => _postAuth('/auth/login', {'email': email, 'password': password});
 
+  Future<AuthResponseModel> socialGoogle(String idToken) =>
+      _postAuth('/auth/social/google', {'idToken': idToken});
+
   Future<void> logout() async {
     try {
       await _dio.post<void>('/auth/logout');

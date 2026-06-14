@@ -13,8 +13,10 @@ import 'package:ridemates/core/router/app_router.dart';
 import 'package:ridemates/core/storage/secure_token_storage.dart';
 import 'package:ridemates/core/storage/token_storage.dart';
 import 'package:ridemates/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:ridemates/features/auth/data/datasources/google_auth_data_source.dart';
 import 'package:ridemates/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:ridemates/features/auth/domain/repositories/auth_repository.dart';
+import 'package:ridemates/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:ridemates/features/auth/domain/usecases/login_usecase.dart';
 import 'package:ridemates/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:ridemates/features/auth/domain/usecases/register_usecase.dart';
@@ -63,9 +65,11 @@ Future<void> configureDependencies() async {
     ..registerLazySingleton<AuthRemoteDataSource>(
       () => AuthRemoteDataSource(getIt<Dio>()),
     )
+    ..registerLazySingleton<GoogleAuthDataSource>(GoogleAuthDataSource.new)
     ..registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(
         remote: getIt<AuthRemoteDataSource>(),
+        googleAuth: getIt<GoogleAuthDataSource>(),
         tokenStorage: getIt<TokenStorage>(),
       ),
     )
@@ -76,8 +80,16 @@ Future<void> configureDependencies() async {
     ..registerFactory<LogOutUseCase>(
       () => LogOutUseCase(getIt<AuthRepository>()),
     )
-    ..registerFactory<LoginBloc>(() => LoginBloc(getIt<LogInUseCase>()))
+    ..registerFactory<GoogleSignInUseCase>(
+      () => GoogleSignInUseCase(getIt<AuthRepository>()),
+    )
+    ..registerFactory<LoginBloc>(
+      () => LoginBloc(getIt<LogInUseCase>(), getIt<GoogleSignInUseCase>()),
+    )
     ..registerFactory<CreateAccountBloc>(
-      () => CreateAccountBloc(getIt<RegisterUseCase>()),
+      () => CreateAccountBloc(
+        getIt<RegisterUseCase>(),
+        getIt<GoogleSignInUseCase>(),
+      ),
     );
 }

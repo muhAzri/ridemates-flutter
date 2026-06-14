@@ -13,6 +13,10 @@ abstract interface class AuthRepository {
     required String password,
   });
 
+  /// Google sign-in (UA-6): obtains a Google ID token, exchanges it with the
+  /// backend, and persists the session. Returns null if the user cancels.
+  Future<AuthSession?> signInWithGoogle();
+
   Future<void> logOut();
 
   Future<bool> isAuthenticated();

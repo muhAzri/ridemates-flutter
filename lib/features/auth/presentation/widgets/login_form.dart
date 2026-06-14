@@ -38,12 +38,19 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
+  void _signInWithGoogle() =>
+      context.read<LoginBloc>().add(const LoginGoogleRequested());
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final isSubmitting = context.select<LoginBloc, bool>(
       (bloc) => bloc.state.status.isSubmitting,
     );
+    final isGoogleLoading = context.select<LoginBloc, bool>(
+      (bloc) => bloc.state.isGoogleInProgress,
+    );
+    final isBusy = isSubmitting || isGoogleLoading;
 
     return Form(
       key: _formKey,
@@ -94,14 +101,15 @@ class _LoginFormState extends State<LoginForm> {
           PrimaryButton(
             label: l10n.logInButton,
             isLoading: isSubmitting,
-            onPressed: _submit,
+            onPressed: isBusy ? null : _submit,
           ),
           const SizedBox(height: AppSpacing.lg),
           OrDivider(label: l10n.orSeparator),
           const SizedBox(height: AppSpacing.lg),
           GoogleButton(
             label: l10n.continueWithGoogleButton,
-            onPressed: () {},
+            isLoading: isGoogleLoading,
+            onPressed: isBusy ? null : _signInWithGoogle,
           ),
           const SizedBox(height: AppSpacing.xl),
           AuthFooter(

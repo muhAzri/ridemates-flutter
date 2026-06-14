@@ -53,6 +53,19 @@ GoRouter createRouter() {
   );
 }
 
+/// Where to go after a successful auth (login / register / Google), forcing
+/// onboarding so a user can never land on the app with incomplete data —
+/// regardless of which screen they authenticated from (contract §3 flags).
+String postAuthLocation({
+  required bool needsProfileSetup,
+  required bool needsLocation,
+}) {
+  if (needsProfileSetup) return AppRoutes.profileSetup;
+  // TODO(onboarding): route to set-location (screen 04) once it exists; for now
+  // a remaining needsLocation still lands on home.
+  return AppRoutes.home;
+}
+
 /// Auto-logs screen views to Firebase Analytics. Skipped gracefully when
 /// Firebase isn't initialised (e.g. in widget tests).
 List<NavigatorObserver> _analyticsObservers() {

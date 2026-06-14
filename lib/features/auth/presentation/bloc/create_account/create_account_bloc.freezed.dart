@@ -14,62 +14,30 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$CreateAccountEvent {
 
- String get email; String get password;
-/// Create a copy of CreateAccountEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$CreateAccountEventCopyWith<CreateAccountEvent> get copyWith => _$CreateAccountEventCopyWithImpl<CreateAccountEvent>(this as CreateAccountEvent, _$identity);
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateAccountEvent&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateAccountEvent);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,email,password);
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'CreateAccountEvent(email: $email, password: $password)';
+  return 'CreateAccountEvent()';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $CreateAccountEventCopyWith<$Res>  {
-  factory $CreateAccountEventCopyWith(CreateAccountEvent value, $Res Function(CreateAccountEvent) _then) = _$CreateAccountEventCopyWithImpl;
-@useResult
-$Res call({
- String email, String password
-});
-
-
-
-
-}
-/// @nodoc
-class _$CreateAccountEventCopyWithImpl<$Res>
-    implements $CreateAccountEventCopyWith<$Res> {
-  _$CreateAccountEventCopyWithImpl(this._self, this._then);
-
-  final CreateAccountEvent _self;
-  final $Res Function(CreateAccountEvent) _then;
-
-/// Create a copy of CreateAccountEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,}) {
-  return _then(_self.copyWith(
-email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
+class $CreateAccountEventCopyWith<$Res>  {
+$CreateAccountEventCopyWith(CreateAccountEvent _, $Res Function(CreateAccountEvent) __);
 }
 
 
@@ -87,11 +55,12 @@ extension CreateAccountEventPatterns on CreateAccountEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CreateAccountSubmitted value)?  submitted,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( CreateAccountSubmitted value)?  submitted,TResult Function( CreateAccountGoogleRequested value)?  googleRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case CreateAccountSubmitted() when submitted != null:
-return submitted(_that);case _:
+return submitted(_that);case CreateAccountGoogleRequested() when googleRequested != null:
+return googleRequested(_that);case _:
   return orElse();
 
 }
@@ -109,11 +78,12 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CreateAccountSubmitted value)  submitted,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( CreateAccountSubmitted value)  submitted,required TResult Function( CreateAccountGoogleRequested value)  googleRequested,}){
 final _that = this;
 switch (_that) {
 case CreateAccountSubmitted():
-return submitted(_that);}
+return submitted(_that);case CreateAccountGoogleRequested():
+return googleRequested(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -127,11 +97,12 @@ return submitted(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CreateAccountSubmitted value)?  submitted,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( CreateAccountSubmitted value)?  submitted,TResult? Function( CreateAccountGoogleRequested value)?  googleRequested,}){
 final _that = this;
 switch (_that) {
 case CreateAccountSubmitted() when submitted != null:
-return submitted(_that);case _:
+return submitted(_that);case CreateAccountGoogleRequested() when googleRequested != null:
+return googleRequested(_that);case _:
   return null;
 
 }
@@ -148,10 +119,11 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  submitted,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  submitted,TResult Function()?  googleRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case CreateAccountSubmitted() when submitted != null:
-return submitted(_that.email,_that.password);case _:
+return submitted(_that.email,_that.password);case CreateAccountGoogleRequested() when googleRequested != null:
+return googleRequested();case _:
   return orElse();
 
 }
@@ -169,10 +141,11 @@ return submitted(_that.email,_that.password);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  submitted,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  submitted,required TResult Function()  googleRequested,}) {final _that = this;
 switch (_that) {
 case CreateAccountSubmitted():
-return submitted(_that.email,_that.password);}
+return submitted(_that.email,_that.password);case CreateAccountGoogleRequested():
+return googleRequested();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -186,10 +159,11 @@ return submitted(_that.email,_that.password);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  submitted,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  submitted,TResult? Function()?  googleRequested,}) {final _that = this;
 switch (_that) {
 case CreateAccountSubmitted() when submitted != null:
-return submitted(_that.email,_that.password);case _:
+return submitted(_that.email,_that.password);case CreateAccountGoogleRequested() when googleRequested != null:
+return googleRequested();case _:
   return null;
 
 }
@@ -204,12 +178,12 @@ class CreateAccountSubmitted implements CreateAccountEvent {
   const CreateAccountSubmitted({required this.email, required this.password});
   
 
-@override final  String email;
-@override final  String password;
+ final  String email;
+ final  String password;
 
 /// Create a copy of CreateAccountEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $CreateAccountSubmittedCopyWith<CreateAccountSubmitted> get copyWith => _$CreateAccountSubmittedCopyWithImpl<CreateAccountSubmitted>(this, _$identity);
 
@@ -235,7 +209,7 @@ String toString() {
 /// @nodoc
 abstract mixin class $CreateAccountSubmittedCopyWith<$Res> implements $CreateAccountEventCopyWith<$Res> {
   factory $CreateAccountSubmittedCopyWith(CreateAccountSubmitted value, $Res Function(CreateAccountSubmitted) _then) = _$CreateAccountSubmittedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  String email, String password
 });
@@ -254,7 +228,7 @@ class _$CreateAccountSubmittedCopyWithImpl<$Res>
 
 /// Create a copy of CreateAccountEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
   return _then(CreateAccountSubmitted(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
@@ -266,9 +240,41 @@ as String,
 }
 
 /// @nodoc
+
+
+class CreateAccountGoogleRequested implements CreateAccountEvent {
+  const CreateAccountGoogleRequested();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateAccountGoogleRequested);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'CreateAccountEvent.googleRequested()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$CreateAccountState {
 
- FormStatus get status; String? get errorMessage;
+ FormStatus get status; bool get isGoogleInProgress; bool get needsProfileSetup; bool get needsLocation; String? get errorMessage;
 /// Create a copy of CreateAccountState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -279,16 +285,16 @@ $CreateAccountStateCopyWith<CreateAccountState> get copyWith => _$CreateAccountS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateAccountState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateAccountState&&(identical(other.status, status) || other.status == status)&&(identical(other.isGoogleInProgress, isGoogleInProgress) || other.isGoogleInProgress == isGoogleInProgress)&&(identical(other.needsProfileSetup, needsProfileSetup) || other.needsProfileSetup == needsProfileSetup)&&(identical(other.needsLocation, needsLocation) || other.needsLocation == needsLocation)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,status,isGoogleInProgress,needsProfileSetup,needsLocation,errorMessage);
 
 @override
 String toString() {
-  return 'CreateAccountState(status: $status, errorMessage: $errorMessage)';
+  return 'CreateAccountState(status: $status, isGoogleInProgress: $isGoogleInProgress, needsProfileSetup: $needsProfileSetup, needsLocation: $needsLocation, errorMessage: $errorMessage)';
 }
 
 
@@ -299,7 +305,7 @@ abstract mixin class $CreateAccountStateCopyWith<$Res>  {
   factory $CreateAccountStateCopyWith(CreateAccountState value, $Res Function(CreateAccountState) _then) = _$CreateAccountStateCopyWithImpl;
 @useResult
 $Res call({
- FormStatus status, String? errorMessage
+ FormStatus status, bool isGoogleInProgress, bool needsProfileSetup, bool needsLocation, String? errorMessage
 });
 
 
@@ -316,10 +322,13 @@ class _$CreateAccountStateCopyWithImpl<$Res>
 
 /// Create a copy of CreateAccountState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? isGoogleInProgress = null,Object? needsProfileSetup = null,Object? needsLocation = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FormStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as FormStatus,isGoogleInProgress: null == isGoogleInProgress ? _self.isGoogleInProgress : isGoogleInProgress // ignore: cast_nullable_to_non_nullable
+as bool,needsProfileSetup: null == needsProfileSetup ? _self.needsProfileSetup : needsProfileSetup // ignore: cast_nullable_to_non_nullable
+as bool,needsLocation: null == needsLocation ? _self.needsLocation : needsLocation // ignore: cast_nullable_to_non_nullable
+as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -405,10 +414,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( FormStatus status,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( FormStatus status,  bool isGoogleInProgress,  bool needsProfileSetup,  bool needsLocation,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _CreateAccountState() when $default != null:
-return $default(_that.status,_that.errorMessage);case _:
+return $default(_that.status,_that.isGoogleInProgress,_that.needsProfileSetup,_that.needsLocation,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -426,10 +435,10 @@ return $default(_that.status,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( FormStatus status,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( FormStatus status,  bool isGoogleInProgress,  bool needsProfileSetup,  bool needsLocation,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _CreateAccountState():
-return $default(_that.status,_that.errorMessage);case _:
+return $default(_that.status,_that.isGoogleInProgress,_that.needsProfileSetup,_that.needsLocation,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -446,10 +455,10 @@ return $default(_that.status,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( FormStatus status,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( FormStatus status,  bool isGoogleInProgress,  bool needsProfileSetup,  bool needsLocation,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _CreateAccountState() when $default != null:
-return $default(_that.status,_that.errorMessage);case _:
+return $default(_that.status,_that.isGoogleInProgress,_that.needsProfileSetup,_that.needsLocation,_that.errorMessage);case _:
   return null;
 
 }
@@ -461,10 +470,13 @@ return $default(_that.status,_that.errorMessage);case _:
 
 
 class _CreateAccountState implements CreateAccountState {
-  const _CreateAccountState({this.status = FormStatus.initial, this.errorMessage});
+  const _CreateAccountState({this.status = FormStatus.initial, this.isGoogleInProgress = false, this.needsProfileSetup = false, this.needsLocation = false, this.errorMessage});
   
 
 @override@JsonKey() final  FormStatus status;
+@override@JsonKey() final  bool isGoogleInProgress;
+@override@JsonKey() final  bool needsProfileSetup;
+@override@JsonKey() final  bool needsLocation;
 @override final  String? errorMessage;
 
 /// Create a copy of CreateAccountState
@@ -477,16 +489,16 @@ _$CreateAccountStateCopyWith<_CreateAccountState> get copyWith => __$CreateAccou
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateAccountState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateAccountState&&(identical(other.status, status) || other.status == status)&&(identical(other.isGoogleInProgress, isGoogleInProgress) || other.isGoogleInProgress == isGoogleInProgress)&&(identical(other.needsProfileSetup, needsProfileSetup) || other.needsProfileSetup == needsProfileSetup)&&(identical(other.needsLocation, needsLocation) || other.needsLocation == needsLocation)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,status,isGoogleInProgress,needsProfileSetup,needsLocation,errorMessage);
 
 @override
 String toString() {
-  return 'CreateAccountState(status: $status, errorMessage: $errorMessage)';
+  return 'CreateAccountState(status: $status, isGoogleInProgress: $isGoogleInProgress, needsProfileSetup: $needsProfileSetup, needsLocation: $needsLocation, errorMessage: $errorMessage)';
 }
 
 
@@ -497,7 +509,7 @@ abstract mixin class _$CreateAccountStateCopyWith<$Res> implements $CreateAccoun
   factory _$CreateAccountStateCopyWith(_CreateAccountState value, $Res Function(_CreateAccountState) _then) = __$CreateAccountStateCopyWithImpl;
 @override @useResult
 $Res call({
- FormStatus status, String? errorMessage
+ FormStatus status, bool isGoogleInProgress, bool needsProfileSetup, bool needsLocation, String? errorMessage
 });
 
 
@@ -514,10 +526,13 @@ class __$CreateAccountStateCopyWithImpl<$Res>
 
 /// Create a copy of CreateAccountState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? isGoogleInProgress = null,Object? needsProfileSetup = null,Object? needsLocation = null,Object? errorMessage = freezed,}) {
   return _then(_CreateAccountState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FormStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as FormStatus,isGoogleInProgress: null == isGoogleInProgress ? _self.isGoogleInProgress : isGoogleInProgress // ignore: cast_nullable_to_non_nullable
+as bool,needsProfileSetup: null == needsProfileSetup ? _self.needsProfileSetup : needsProfileSetup // ignore: cast_nullable_to_non_nullable
+as bool,needsLocation: null == needsLocation ? _self.needsLocation : needsLocation // ignore: cast_nullable_to_non_nullable
+as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

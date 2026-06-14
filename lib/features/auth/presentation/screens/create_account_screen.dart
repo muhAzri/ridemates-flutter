@@ -22,7 +22,12 @@ class CreateAccountScreen extends StatelessWidget {
           listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
             if (state.status.isSuccess) {
-              context.go(AppRoutes.profileSetup);
+              context.go(
+                postAuthLocation(
+                  needsProfileSetup: state.needsProfileSetup,
+                  needsLocation: state.needsLocation,
+                ),
+              );
             } else if (state.status.isFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

@@ -22,11 +22,13 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
   final _formKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _confirmPassword = TextEditingController();
 
   @override
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _confirmPassword.dispose();
     super.dispose();
   }
 
@@ -41,12 +43,20 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
     }
   }
 
+  void _signInWithGoogle() => context.read<CreateAccountBloc>().add(
+    const CreateAccountGoogleRequested(),
+  );
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final isSubmitting = context.select<CreateAccountBloc, bool>(
       (bloc) => bloc.state.status.isSubmitting,
     );
+    final isGoogleLoading = context.select<CreateAccountBloc, bool>(
+      (bloc) => bloc.state.isGoogleInProgress,
+    );
+    final isBusy = isSubmitting || isGoogleLoading;
 
     return Form(
       key: _formKey,
@@ -79,26 +89,43 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
             controller: _password,
             isPassword: true,
             helperText: l10n.passwordRequirementHelper,
-            textInputAction: TextInputAction.done,
-            onFieldSubmitted: (_) => _submit(),
+            textInputAction: TextInputAction.next,
             validator: (value) => Validators.newPassword(
               value,
               requiredMessage: l10n.validationPasswordRequired,
               weakMessage: l10n.validationPasswordWeak,
             ),
           ),
+          const SizedBox(height: AppSpacing.md),
+          AppTextField(
+            label: l10n.confirmPasswordFieldLabel,
+            controller: _confirmPassword,
+            isPassword: true,
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (_) => _submit(),
+            validator: (value) {
+              if ((value ?? '').isEmpty) {
+                return l10n.validationConfirmPasswordRequired;
+              }
+              if (value != _password.text) {
+                return l10n.validationPasswordMismatch;
+              }
+              return null;
+            },
+          ),
           const SizedBox(height: AppSpacing.lg),
           PrimaryButton(
             label: l10n.createAccountButton,
             isLoading: isSubmitting,
-            onPressed: _submit,
+            onPressed: isBusy ? null : _submit,
           ),
           const SizedBox(height: AppSpacing.lg),
           OrDivider(label: l10n.orSeparator),
           const SizedBox(height: AppSpacing.lg),
           GoogleButton(
             label: l10n.continueWithGoogleButton,
-            onPressed: () {},
+            isLoading: isGoogleLoading,
+            onPressed: isBusy ? null : _signInWithGoogle,
           ),
           const SizedBox(height: AppSpacing.lg),
           AuthFooter(

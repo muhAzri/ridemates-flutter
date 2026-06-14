@@ -14,62 +14,30 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$LoginEvent {
 
- String get email; String get password;
-/// Create a copy of LoginEvent
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$LoginEventCopyWith<LoginEvent> get copyWith => _$LoginEventCopyWithImpl<LoginEvent>(this as LoginEvent, _$identity);
+
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginEvent&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginEvent);
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,email,password);
+int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'LoginEvent(email: $email, password: $password)';
+  return 'LoginEvent()';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $LoginEventCopyWith<$Res>  {
-  factory $LoginEventCopyWith(LoginEvent value, $Res Function(LoginEvent) _then) = _$LoginEventCopyWithImpl;
-@useResult
-$Res call({
- String email, String password
-});
-
-
-
-
-}
-/// @nodoc
-class _$LoginEventCopyWithImpl<$Res>
-    implements $LoginEventCopyWith<$Res> {
-  _$LoginEventCopyWithImpl(this._self, this._then);
-
-  final LoginEvent _self;
-  final $Res Function(LoginEvent) _then;
-
-/// Create a copy of LoginEvent
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,}) {
-  return _then(_self.copyWith(
-email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
-
+class $LoginEventCopyWith<$Res>  {
+$LoginEventCopyWith(LoginEvent _, $Res Function(LoginEvent) __);
 }
 
 
@@ -87,11 +55,12 @@ extension LoginEventPatterns on LoginEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoginSubmitted value)?  submitted,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( LoginSubmitted value)?  submitted,TResult Function( LoginGoogleRequested value)?  googleRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case LoginSubmitted() when submitted != null:
-return submitted(_that);case _:
+return submitted(_that);case LoginGoogleRequested() when googleRequested != null:
+return googleRequested(_that);case _:
   return orElse();
 
 }
@@ -109,11 +78,12 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoginSubmitted value)  submitted,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( LoginSubmitted value)  submitted,required TResult Function( LoginGoogleRequested value)  googleRequested,}){
 final _that = this;
 switch (_that) {
 case LoginSubmitted():
-return submitted(_that);}
+return submitted(_that);case LoginGoogleRequested():
+return googleRequested(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -127,11 +97,12 @@ return submitted(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoginSubmitted value)?  submitted,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( LoginSubmitted value)?  submitted,TResult? Function( LoginGoogleRequested value)?  googleRequested,}){
 final _that = this;
 switch (_that) {
 case LoginSubmitted() when submitted != null:
-return submitted(_that);case _:
+return submitted(_that);case LoginGoogleRequested() when googleRequested != null:
+return googleRequested(_that);case _:
   return null;
 
 }
@@ -148,10 +119,11 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  submitted,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String email,  String password)?  submitted,TResult Function()?  googleRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case LoginSubmitted() when submitted != null:
-return submitted(_that.email,_that.password);case _:
+return submitted(_that.email,_that.password);case LoginGoogleRequested() when googleRequested != null:
+return googleRequested();case _:
   return orElse();
 
 }
@@ -169,10 +141,11 @@ return submitted(_that.email,_that.password);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  submitted,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String email,  String password)  submitted,required TResult Function()  googleRequested,}) {final _that = this;
 switch (_that) {
 case LoginSubmitted():
-return submitted(_that.email,_that.password);}
+return submitted(_that.email,_that.password);case LoginGoogleRequested():
+return googleRequested();}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -186,10 +159,11 @@ return submitted(_that.email,_that.password);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  submitted,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String email,  String password)?  submitted,TResult? Function()?  googleRequested,}) {final _that = this;
 switch (_that) {
 case LoginSubmitted() when submitted != null:
-return submitted(_that.email,_that.password);case _:
+return submitted(_that.email,_that.password);case LoginGoogleRequested() when googleRequested != null:
+return googleRequested();case _:
   return null;
 
 }
@@ -204,12 +178,12 @@ class LoginSubmitted implements LoginEvent {
   const LoginSubmitted({required this.email, required this.password});
   
 
-@override final  String email;
-@override final  String password;
+ final  String email;
+ final  String password;
 
 /// Create a copy of LoginEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
+@JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $LoginSubmittedCopyWith<LoginSubmitted> get copyWith => _$LoginSubmittedCopyWithImpl<LoginSubmitted>(this, _$identity);
 
@@ -235,7 +209,7 @@ String toString() {
 /// @nodoc
 abstract mixin class $LoginSubmittedCopyWith<$Res> implements $LoginEventCopyWith<$Res> {
   factory $LoginSubmittedCopyWith(LoginSubmitted value, $Res Function(LoginSubmitted) _then) = _$LoginSubmittedCopyWithImpl;
-@override @useResult
+@useResult
 $Res call({
  String email, String password
 });
@@ -254,7 +228,7 @@ class _$LoginSubmittedCopyWithImpl<$Res>
 
 /// Create a copy of LoginEvent
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
   return _then(LoginSubmitted(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
 as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
@@ -266,9 +240,41 @@ as String,
 }
 
 /// @nodoc
+
+
+class LoginGoogleRequested implements LoginEvent {
+  const LoginGoogleRequested();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginGoogleRequested);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'LoginEvent.googleRequested()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
 mixin _$LoginState {
 
- FormStatus get status; String? get errorMessage;
+ FormStatus get status; bool get isGoogleInProgress; bool get needsProfileSetup; bool get needsLocation; String? get errorMessage;
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -279,16 +285,16 @@ $LoginStateCopyWith<LoginState> get copyWith => _$LoginStateCopyWithImpl<LoginSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LoginState&&(identical(other.status, status) || other.status == status)&&(identical(other.isGoogleInProgress, isGoogleInProgress) || other.isGoogleInProgress == isGoogleInProgress)&&(identical(other.needsProfileSetup, needsProfileSetup) || other.needsProfileSetup == needsProfileSetup)&&(identical(other.needsLocation, needsLocation) || other.needsLocation == needsLocation)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,status,isGoogleInProgress,needsProfileSetup,needsLocation,errorMessage);
 
 @override
 String toString() {
-  return 'LoginState(status: $status, errorMessage: $errorMessage)';
+  return 'LoginState(status: $status, isGoogleInProgress: $isGoogleInProgress, needsProfileSetup: $needsProfileSetup, needsLocation: $needsLocation, errorMessage: $errorMessage)';
 }
 
 
@@ -299,7 +305,7 @@ abstract mixin class $LoginStateCopyWith<$Res>  {
   factory $LoginStateCopyWith(LoginState value, $Res Function(LoginState) _then) = _$LoginStateCopyWithImpl;
 @useResult
 $Res call({
- FormStatus status, String? errorMessage
+ FormStatus status, bool isGoogleInProgress, bool needsProfileSetup, bool needsLocation, String? errorMessage
 });
 
 
@@ -316,10 +322,13 @@ class _$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? isGoogleInProgress = null,Object? needsProfileSetup = null,Object? needsLocation = null,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FormStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as FormStatus,isGoogleInProgress: null == isGoogleInProgress ? _self.isGoogleInProgress : isGoogleInProgress // ignore: cast_nullable_to_non_nullable
+as bool,needsProfileSetup: null == needsProfileSetup ? _self.needsProfileSetup : needsProfileSetup // ignore: cast_nullable_to_non_nullable
+as bool,needsLocation: null == needsLocation ? _self.needsLocation : needsLocation // ignore: cast_nullable_to_non_nullable
+as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -405,10 +414,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( FormStatus status,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( FormStatus status,  bool isGoogleInProgress,  bool needsProfileSetup,  bool needsLocation,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginState() when $default != null:
-return $default(_that.status,_that.errorMessage);case _:
+return $default(_that.status,_that.isGoogleInProgress,_that.needsProfileSetup,_that.needsLocation,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -426,10 +435,10 @@ return $default(_that.status,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( FormStatus status,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( FormStatus status,  bool isGoogleInProgress,  bool needsProfileSetup,  bool needsLocation,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _LoginState():
-return $default(_that.status,_that.errorMessage);case _:
+return $default(_that.status,_that.isGoogleInProgress,_that.needsProfileSetup,_that.needsLocation,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -446,10 +455,10 @@ return $default(_that.status,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( FormStatus status,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( FormStatus status,  bool isGoogleInProgress,  bool needsProfileSetup,  bool needsLocation,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _LoginState() when $default != null:
-return $default(_that.status,_that.errorMessage);case _:
+return $default(_that.status,_that.isGoogleInProgress,_that.needsProfileSetup,_that.needsLocation,_that.errorMessage);case _:
   return null;
 
 }
@@ -461,10 +470,13 @@ return $default(_that.status,_that.errorMessage);case _:
 
 
 class _LoginState implements LoginState {
-  const _LoginState({this.status = FormStatus.initial, this.errorMessage});
+  const _LoginState({this.status = FormStatus.initial, this.isGoogleInProgress = false, this.needsProfileSetup = false, this.needsLocation = false, this.errorMessage});
   
 
 @override@JsonKey() final  FormStatus status;
+@override@JsonKey() final  bool isGoogleInProgress;
+@override@JsonKey() final  bool needsProfileSetup;
+@override@JsonKey() final  bool needsLocation;
 @override final  String? errorMessage;
 
 /// Create a copy of LoginState
@@ -477,16 +489,16 @@ _$LoginStateCopyWith<_LoginState> get copyWith => __$LoginStateCopyWithImpl<_Log
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginState&&(identical(other.status, status) || other.status == status)&&(identical(other.isGoogleInProgress, isGoogleInProgress) || other.isGoogleInProgress == isGoogleInProgress)&&(identical(other.needsProfileSetup, needsProfileSetup) || other.needsProfileSetup == needsProfileSetup)&&(identical(other.needsLocation, needsLocation) || other.needsLocation == needsLocation)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,status,isGoogleInProgress,needsProfileSetup,needsLocation,errorMessage);
 
 @override
 String toString() {
-  return 'LoginState(status: $status, errorMessage: $errorMessage)';
+  return 'LoginState(status: $status, isGoogleInProgress: $isGoogleInProgress, needsProfileSetup: $needsProfileSetup, needsLocation: $needsLocation, errorMessage: $errorMessage)';
 }
 
 
@@ -497,7 +509,7 @@ abstract mixin class _$LoginStateCopyWith<$Res> implements $LoginStateCopyWith<$
   factory _$LoginStateCopyWith(_LoginState value, $Res Function(_LoginState) _then) = __$LoginStateCopyWithImpl;
 @override @useResult
 $Res call({
- FormStatus status, String? errorMessage
+ FormStatus status, bool isGoogleInProgress, bool needsProfileSetup, bool needsLocation, String? errorMessage
 });
 
 
@@ -514,10 +526,13 @@ class __$LoginStateCopyWithImpl<$Res>
 
 /// Create a copy of LoginState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? isGoogleInProgress = null,Object? needsProfileSetup = null,Object? needsLocation = null,Object? errorMessage = freezed,}) {
   return _then(_LoginState(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FormStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+as FormStatus,isGoogleInProgress: null == isGoogleInProgress ? _self.isGoogleInProgress : isGoogleInProgress // ignore: cast_nullable_to_non_nullable
+as bool,needsProfileSetup: null == needsProfileSetup ? _self.needsProfileSetup : needsProfileSetup // ignore: cast_nullable_to_non_nullable
+as bool,needsLocation: null == needsLocation ? _self.needsLocation : needsLocation // ignore: cast_nullable_to_non_nullable
+as bool,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
