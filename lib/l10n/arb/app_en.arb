@@ -4,6 +4,7 @@
     "homeTitle": "Home",
     "@homeTitle": { "description": "Title of the placeholder home screen" },
     "homeComingSoonMessage": "Your community feed is coming soon.",
+    "logoutButton": "Log out",
 
     "appTagline": "Find your cycling community.",
     "@appTagline": { "description": "Brand tagline shown under the logo" },
@@ -19,6 +20,7 @@
     "@createAccountHeroTitle": { "description": "Brand name in the sign-up hero" },
     "createAccountFormTitle": "Create your account",
     "passwordRequirementHelper": "8+ characters with a number.",
+    "confirmPasswordFieldLabel": "Confirm password",
     "createAccountButton": "Create account",
     "alreadyHaveAccountPrompt": "Already a member?",
     "logInLink": "Log in",
@@ -57,6 +59,8 @@
     "validationEmailInvalid": "Enter a valid email.",
     "validationPasswordRequired": "Password is required.",
     "validationPasswordWeak": "Use 8+ characters including a number.",
+    "validationConfirmPasswordRequired": "Please confirm your password.",
+    "validationPasswordMismatch": "Passwords do not match.",
     "validationDisplayNameRequired": "Display name is required.",
 
     "loginFailedMessage": "Could not sign in. Please try again.",
