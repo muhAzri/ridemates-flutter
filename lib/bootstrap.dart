@@ -9,6 +9,7 @@ import 'package:ridemates/core/firebase/firebase_bootstrap.dart';
 import 'package:ridemates/core/notifications/fcm_background_handler.dart';
 import 'package:ridemates/core/notifications/notification_data.dart';
 import 'package:ridemates/core/notifications/push_notification_service.dart';
+import 'package:ridemates/core/storage/token_storage.dart';
 
 class AppBlocObserver extends BlocObserver {
   const AppBlocObserver();
@@ -37,6 +38,10 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   Bloc.observer = const AppBlocObserver();
 
   await configureDependencies();
+
+  // Load any stored access token into memory so the first authed request and
+  // the Dio interceptor have it synchronously.
+  await getIt<TokenStorage>().hydrate();
 
   // Foreground display + tap routing. For now every tap just opens the app;
   // deep-link routing is parsed and ready to enable (see [_onNotificationTap]).

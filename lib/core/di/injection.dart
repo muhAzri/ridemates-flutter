@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/analytics/analytics_service.dart';
@@ -9,6 +10,16 @@ import 'package:ridemates/core/network/dio_client.dart';
 import 'package:ridemates/core/network/sse/sse_client.dart';
 import 'package:ridemates/core/notifications/push_notification_service.dart';
 import 'package:ridemates/core/router/app_router.dart';
+import 'package:ridemates/core/storage/secure_token_storage.dart';
+import 'package:ridemates/core/storage/token_storage.dart';
+import 'package:ridemates/features/auth/data/datasources/auth_remote_data_source.dart';
+import 'package:ridemates/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:ridemates/features/auth/domain/repositories/auth_repository.dart';
+import 'package:ridemates/features/auth/domain/usecases/login_usecase.dart';
+import 'package:ridemates/features/auth/domain/usecases/logout_usecase.dart';
+import 'package:ridemates/features/auth/domain/usecases/register_usecase.dart';
+import 'package:ridemates/features/auth/presentation/bloc/create_account/create_account_bloc.dart';
+import 'package:ridemates/features/auth/presentation/bloc/login/login_bloc.dart';
 
 /// Global service locator.
 final GetIt getIt = GetIt.instance;
@@ -18,7 +29,17 @@ final GetIt getIt = GetIt.instance;
 Future<void> configureDependencies() async {
   // --- Core ---------------------------------------------------------------
   getIt
-    ..registerLazySingleton<Dio>(buildDio)
+    ..registerLazySingleton<FlutterSecureStorage>(FlutterSecureStorage.new)
+    ..registerLazySingleton<TokenStorage>(
+      () => SecureTokenStorage(getIt<FlutterSecureStorage>()),
+    )
+    ..registerLazySingleton<Dio>(
+      () => buildDio(
+        getIt<TokenStorage>(),
+        // On unrecoverable auth failure, drop the user back to login.
+        onSessionExpired: () => getIt<GoRouter>().go(AppRoutes.login),
+      ),
+    )
     ..registerLazySingleton<GoRouter>(createRouter)
     // SSE transport for the realtime stream (contract §10). Wire a real token
     // provider (e.g. from the auth store) once auth lands; null = anonymous.
@@ -37,11 +58,26 @@ Future<void> configureDependencies() async {
         messaging: getIt<FirebaseMessaging>(),
         localNotifications: getIt<FlutterLocalNotificationsPlugin>(),
       ),
+    )
+    // --- Auth feature ------------------------------------------------------
+    ..registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSource(getIt<Dio>()),
+    )
+    ..registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(
+        remote: getIt<AuthRemoteDataSource>(),
+        tokenStorage: getIt<TokenStorage>(),
+      ),
+    )
+    ..registerFactory<RegisterUseCase>(
+      () => RegisterUseCase(getIt<AuthRepository>()),
+    )
+    ..registerFactory<LogInUseCase>(() => LogInUseCase(getIt<AuthRepository>()))
+    ..registerFactory<LogOutUseCase>(
+      () => LogOutUseCase(getIt<AuthRepository>()),
+    )
+    ..registerFactory<LoginBloc>(() => LoginBloc(getIt<LogInUseCase>()))
+    ..registerFactory<CreateAccountBloc>(
+      () => CreateAccountBloc(getIt<RegisterUseCase>()),
     );
-
-  // --- Data sources / repositories / blocs --------------------------------
-  // Register feature dependencies here as the app grows, e.g.:
-  //   getIt.registerLazySingleton<AuthRepository>(
-  //     () => AuthRepository(getIt<Dio>()),
-  //   );
 }
