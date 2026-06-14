@@ -7,4 +7,8 @@ abstract final class AppAssets {
 
   /// RideMates brand mark — white bike on leaf, square (1024², lossless WebP).
   static const String logo = '$_images/ridemates-logo.webp';
+
+  /// Official Google "G" logo (standard colour), per Google's sign-in branding
+  /// guidelines. Must not be recoloured or altered.
+  static const String googleLogo = '$_images/google_g_logo.svg';
 }
