@@ -49,6 +49,17 @@
     "addPhotoLabel": "Add photo",
     "continueButton": "Continue",
 
+    "setLocationTitle": "Pin your location",
+    "@setLocationTitle": { "description": "Title of the set-location (map pinpoint) screen, screen 04" },
+    "setLocationHeaderTitle": "Set your location",
+    "setLocationHeaderSubtitle": "Drag the map to where you ride from",
+    "setLocationAreaLabel": "Your area",
+    "setLocationResolvingArea": "Finding your area…",
+    "setLocationUnknownArea": "Area unavailable",
+    "setLocationPrivacyNote": "Others only see your area & rough distance — never your exact address.",
+    "setLocationConfirmButton": "Confirm location",
+    "setLocationFailedMessage": "Could not save your location. Please try again.",
+
     "cyclingTypeRoad": "Road",
     "cyclingTypeMtb": "MTB",
     "cyclingTypeGravel": "Gravel",
