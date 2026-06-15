@@ -36,8 +36,10 @@ import 'package:ridemates/features/profile/data/datasources/profile_remote_data_
 import 'package:ridemates/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:ridemates/features/profile/domain/repositories/profile_repository.dart';
 import 'package:ridemates/features/profile/domain/usecases/get_my_profile_usecase.dart';
+import 'package:ridemates/features/profile/domain/usecases/get_user_listings_usecase.dart';
 import 'package:ridemates/features/profile/domain/usecases/update_profile_usecase.dart';
 import 'package:ridemates/features/profile/domain/usecases/upload_avatar_usecase.dart';
+import 'package:ridemates/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:ridemates/features/profile/presentation/bloc/profile_setup/profile_setup_bloc.dart';
 
 /// Global service locator.
@@ -119,6 +121,9 @@ Future<void> configureDependencies() async {
     ..registerFactory<GetMyProfileUseCase>(
       () => GetMyProfileUseCase(getIt<ProfileRepository>()),
     )
+    ..registerFactory<GetUserListingsUseCase>(
+      () => GetUserListingsUseCase(getIt<ProfileRepository>()),
+    )
     ..registerFactory<UpdateProfileUseCase>(
       () => UpdateProfileUseCase(getIt<ProfileRepository>()),
     )
@@ -132,6 +137,12 @@ Future<void> configureDependencies() async {
         getIt<UpdateProfileUseCase>(),
         getIt<UploadAvatarUseCase>(),
         getIt<ImagePickService>(),
+      ),
+    )
+    ..registerFactory<ProfileBloc>(
+      () => ProfileBloc(
+        getIt<GetMyProfileUseCase>(),
+        getIt<GetUserListingsUseCase>(),
       ),
     )
     // --- Location feature --------------------------------------------------

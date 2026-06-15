@@ -101,6 +101,10 @@
     "listingsLabel": "Listing",
     "threadsLabel": "Thread",
     "profileThreadsEmpty": "Thread kamu muncul di sini.",
+    "profileListingsEmpty": "Kamu belum punya listing.",
     "statusActive": "Aktif",
-    "statusSold": "Terjual"
+    "statusSold": "Terjual",
+
+    "retryButton": "Coba lagi",
+    "genericErrorMessage": "Terjadi kesalahan. Coba lagi."
 }

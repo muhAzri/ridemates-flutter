@@ -125,6 +125,10 @@
     "@listingsLabel": { "description": "Profile stat & tab label for the user's listings" },
     "threadsLabel": "Threads",
     "profileThreadsEmpty": "Your threads appear here.",
+    "profileListingsEmpty": "You haven't posted any listings yet.",
     "statusActive": "Active",
-    "statusSold": "Sold"
+    "statusSold": "Sold",
+
+    "retryButton": "Retry",
+    "genericErrorMessage": "Something went wrong. Please try again."
 }

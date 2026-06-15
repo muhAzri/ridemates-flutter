@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/di/injection.dart';
 import 'package:ridemates/core/router/app_routes.dart';
 import 'package:ridemates/core/storage/token_storage.dart';
 import 'package:ridemates/core/theme/theme.dart';
+import 'package:ridemates/core/utils/currency.dart';
 import 'package:ridemates/core/widgets/widgets.dart';
+import 'package:ridemates/features/profile/domain/entities/cycling_type.dart';
+import 'package:ridemates/features/profile/domain/entities/listing_status.dart';
+import 'package:ridemates/features/profile/domain/entities/profile_listing.dart';
+import 'package:ridemates/features/profile/domain/entities/user_profile.dart';
+import 'package:ridemates/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:ridemates/l10n/l10n.dart';
 
 /// Screen 15 — **Profile** (the Profile tab). The signed-in member's own
-/// profile: a pine header with avatar / ride type / area, a stats strip
-/// (Listings · Threads · Rating), a Listings/Threads switcher, then a grid of
-/// the user's own listings with Active / Sold states.
+/// profile, backed by [ProfileBloc] (`GET /users/me` + `GET /users/{id}/listings`).
+/// Pine header (avatar / ride type / area), a stats strip (Listings · Threads),
+/// a Listings/Threads switcher, then the user's own listings grid.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -19,11 +26,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  static const _listings = <_OwnListing>[
-    _OwnListing(title: 'Shimano 105', price: 'Rp 2.450.000'),
-    _OwnListing(title: 'Bib shorts — L', price: 'Rp 850.000', sold: true),
-  ];
-
   int _tab = 0;
 
   Future<void> _logout() async {
@@ -33,35 +35,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => getIt<ProfileBloc>()..add(const ProfileEvent.started()),
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) => switch (state.status) {
+          ProfileStatus.loading => const _LoadingView(),
+          ProfileStatus.failure => _ErrorView(
+            message: state.errorMessage,
+            onRetry: () =>
+                context.read<ProfileBloc>().add(const ProfileEvent.refreshed()),
+          ),
+          ProfileStatus.success => _LoadedView(
+            profile: state.profile!,
+            listings: state.listings,
+            tab: _tab,
+            onTab: (i) => setState(() => _tab = i),
+            onLogout: _logout,
+          ),
+        },
+      ),
+    );
+  }
+}
+
+class _LoadedView extends StatelessWidget {
+  const _LoadedView({
+    required this.profile,
+    required this.listings,
+    required this.tab,
+    required this.onTab,
+    required this.onLogout,
+  });
+
+  final UserProfile profile;
+  final List<ProfileListing> listings;
+  final int tab;
+  final ValueChanged<int> onTab;
+  final VoidCallback onLogout;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _PineHeader(onLogout: _logout),
-        _statsStrip(),
-        _tabSwitcher(),
-        Expanded(child: _tabContent()),
+        _PineHeader(profile: profile, onLogout: onLogout),
+        _statsStrip(l10n),
+        _tabSwitcher(l10n),
+        Expanded(child: _tabContent(l10n)),
       ],
     );
   }
 
-  Widget _statsStrip() {
-    final l10n = context.l10n;
+  Widget _statsStrip(AppLocalizations l10n) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
       child: Row(
         children: [
-          Expanded(child: _Stat(value: '8', label: l10n.listingsLabel)),
-          _divider(),
-          Expanded(child: _Stat(value: '23', label: l10n.threadsLabel)),
+          Expanded(
+            child: _Stat(
+              value: '${profile.listingCount}',
+              label: l10n.listingsLabel,
+            ),
+          ),
+          const SizedBox(height: 32, child: VerticalDivider(width: 1)),
+          Expanded(
+            child: _Stat(
+              value: '${profile.threadCount}',
+              label: l10n.threadsLabel,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _divider() =>
-      const SizedBox(height: 32, child: VerticalDivider(width: 1));
-
-  Widget _tabSwitcher() {
+  Widget _tabSwitcher(AppLocalizations l10n) {
     return Container(
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.borderSubtle)),
@@ -70,51 +119,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         children: [
           _TabLabel(
-            label: context.l10n.listingsLabel,
-            selected: _tab == 0,
-            onTap: () => setState(() => _tab = 0),
+            label: l10n.listingsLabel,
+            selected: tab == 0,
+            onTap: () => onTab(0),
           ),
           const SizedBox(width: 24),
           _TabLabel(
-            label: context.l10n.threadsLabel,
-            selected: _tab == 1,
-            onTap: () => setState(() => _tab = 1),
+            label: l10n.threadsLabel,
+            selected: tab == 1,
+            onTap: () => onTab(1),
           ),
         ],
       ),
     );
   }
 
-  Widget _tabContent() {
-    if (_tab == 1) {
-      return Center(
-        child: Text(
-          context.l10n.profileThreadsEmpty,
-          style: AppTypography.body.copyWith(color: AppColors.inkMuted),
-        ),
-      );
+  Widget _tabContent(AppLocalizations l10n) {
+    if (tab == 1) {
+      return _EmptyHint(text: l10n.profileThreadsEmpty);
+    }
+    if (listings.isEmpty) {
+      return _EmptyHint(text: l10n.profileListingsEmpty);
     }
     return GridView.builder(
       padding: const EdgeInsets.fromLTRB(22, 16, 22, 16),
-      itemCount: _listings.length,
+      itemCount: listings.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 13,
         crossAxisSpacing: 13,
         childAspectRatio: 0.82,
       ),
-      itemBuilder: (context, i) => _OwnListingCard(listing: _listings[i]),
+      itemBuilder: (context, i) => _OwnListingCard(listing: listings[i]),
     );
   }
 }
 
 class _PineHeader extends StatelessWidget {
-  const _PineHeader({required this.onLogout});
+  const _PineHeader({required this.profile, required this.onLogout});
 
+  final UserProfile profile;
   final VoidCallback onLogout;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final rideLabel = _cyclingLabel(l10n, profile.cyclingType);
     return ColoredBox(
       color: AppColors.pine,
       child: SafeArea(
@@ -152,25 +202,16 @@ class _PineHeader extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(22, 0, 22, 0),
                 child: Row(
                   children: [
-                    Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xFF1D5443),
-                        border: Border.all(
-                          color: const Color(0x40FFFFFF),
-                          width: 3,
-                        ),
-                      ),
-                    ),
+                    _Avatar(url: profile.avatarUrl),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Adi Pratama',
+                            profile.displayName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: AppTypography.body.copyWith(
                               fontSize: 19,
                               height: 1,
@@ -181,34 +222,41 @@ class _PineHeader extends StatelessWidget {
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 9,
-                                  vertical: 4,
-                                ),
-                                decoration: const BoxDecoration(
-                                  color: Color(0x26FFFFFF),
-                                  borderRadius: AppRadii.pillRadius,
-                                ),
-                                child: Text(
-                                  'Road',
-                                  style: AppTypography.body.copyWith(
-                                    fontSize: 11,
-                                    height: 1,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFFCDEBDB),
+                              if (rideLabel != null) ...[
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 9,
+                                    vertical: 4,
+                                  ),
+                                  decoration: const BoxDecoration(
+                                    color: Color(0x26FFFFFF),
+                                    borderRadius: AppRadii.pillRadius,
+                                  ),
+                                  child: Text(
+                                    rideLabel,
+                                    style: AppTypography.body.copyWith(
+                                      fontSize: 11,
+                                      height: 1,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFFCDEBDB),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 6),
-                              Text(
-                                'Kebayoran Baru',
-                                style: AppTypography.body.copyWith(
-                                  fontSize: 11.5,
-                                  height: 1,
-                                  color: AppColors.onPineMuted,
+                                const SizedBox(width: 6),
+                              ],
+                              if (profile.displayArea != null)
+                                Flexible(
+                                  child: Text(
+                                    profile.displayArea!,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTypography.body.copyWith(
+                                      fontSize: 11.5,
+                                      height: 1,
+                                      color: AppColors.onPineMuted,
+                                    ),
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ],
@@ -218,6 +266,65 @@ class _PineHeader extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  String? _cyclingLabel(AppLocalizations l10n, CyclingType? type) =>
+      switch (type) {
+        CyclingType.road => l10n.cyclingTypeRoad,
+        CyclingType.mtb => l10n.cyclingTypeMtb,
+        CyclingType.gravel => l10n.cyclingTypeGravel,
+        CyclingType.folding => l10n.cyclingTypeFolding,
+        CyclingType.casual => l10n.cyclingTypeCasual,
+        null => null,
+      };
+}
+
+class _Avatar extends StatelessWidget {
+  const _Avatar({this.url});
+
+  final String? url;
+
+  @override
+  Widget build(BuildContext context) {
+    const size = 72.0;
+    const border = Border.fromBorderSide(
+      BorderSide(color: Color(0x40FFFFFF), width: 3),
+    );
+    if (url == null) {
+      return Container(
+        width: size,
+        height: size,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xFF1D5443),
+          border: border,
+        ),
+        child: const Icon(
+          Icons.person_rounded,
+          color: AppColors.onPineMuted,
+          size: 34,
+        ),
+      );
+    }
+    return Container(
+      width: size,
+      height: size,
+      decoration: const BoxDecoration(shape: BoxShape.circle, border: border),
+      child: ClipOval(
+        child: Image.network(
+          url!,
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => const ColoredBox(
+            color: Color(0xFF1D5443),
+            child: Icon(
+              Icons.person_rounded,
+              color: AppColors.onPineMuted,
+              size: 34,
+            ),
           ),
         ),
       ),
@@ -297,26 +404,15 @@ class _TabLabel extends StatelessWidget {
   }
 }
 
-class _OwnListing {
-  const _OwnListing({
-    required this.title,
-    required this.price,
-    this.sold = false,
-  });
-
-  final String title;
-  final String price;
-  final bool sold;
-}
-
 class _OwnListingCard extends StatelessWidget {
   const _OwnListingCard({required this.listing});
 
-  final _OwnListing listing;
+  final ProfileListing listing;
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final sold = listing.status == ListingStatus.sold;
     return Material(
       color: AppColors.surface,
       shape: const RoundedRectangleBorder(
@@ -329,8 +425,8 @@ class _OwnListingCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              const HatchPlaceholder(height: 84),
-              if (listing.sold)
+              _ListingPhoto(url: listing.photoUrl),
+              if (sold)
                 Positioned.fill(
                   child: ColoredBox(
                     color: const Color(0x73152018),
@@ -353,13 +449,13 @@ class _OwnListingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  listing.price,
+                  formatIdr(listing.priceIdr),
                   style: AppTypography.body.copyWith(
                     fontSize: 13,
                     height: 1,
                     fontWeight: FontWeight.w800,
-                    color: listing.sold ? AppColors.inkFaint : AppColors.pine,
-                    decoration: listing.sold
+                    color: sold ? AppColors.inkFaint : AppColors.pine,
+                    decoration: sold
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
                   ),
@@ -396,6 +492,142 @@ class _OwnListingCard extends StatelessWidget {
           height: 1,
           fontWeight: FontWeight.w700,
           color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class _ListingPhoto extends StatelessWidget {
+  const _ListingPhoto({this.url});
+
+  final String? url;
+
+  @override
+  Widget build(BuildContext context) {
+    if (url == null) return const HatchPlaceholder(height: 84);
+    return Image.network(
+      url!,
+      height: 84,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (_, _, _) => const HatchPlaceholder(height: 84),
+    );
+  }
+}
+
+class _EmptyHint extends StatelessWidget {
+  const _EmptyHint({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: AppTypography.body.copyWith(color: AppColors.inkMuted),
+        ),
+      ),
+    );
+  }
+}
+
+class _LoadingView extends StatelessWidget {
+  const _LoadingView();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const ColoredBox(
+          color: AppColors.pine,
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(22, 44, 22, 24),
+              child: AppShimmer(
+                child: Row(
+                  children: [
+                    SkeletonBox(width: 72, height: 72, shape: BoxShape.circle),
+                    SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SkeletonBox(width: 140, height: 18),
+                          SizedBox(height: 10),
+                          SkeletonBox(width: 100, height: 12),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: AppShimmer(
+            child: GridView.count(
+              padding: const EdgeInsets.fromLTRB(22, 24, 22, 16),
+              crossAxisCount: 2,
+              mainAxisSpacing: 13,
+              crossAxisSpacing: 13,
+              childAspectRatio: 0.82,
+              children: List.generate(
+                4,
+                (_) => const SkeletonBox(
+                  height: double.infinity,
+                  borderRadius: 15,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ErrorView extends StatelessWidget {
+  const _ErrorView({required this.onRetry, this.message});
+
+  final VoidCallback onRetry;
+  final String? message;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return SafeArea(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.cloud_off_rounded,
+                size: 44,
+                color: AppColors.inkFaint,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                message ?? l10n.genericErrorMessage,
+                textAlign: TextAlign.center,
+                style: AppTypography.body.copyWith(color: AppColors.inkMuted),
+              ),
+              const SizedBox(height: 20),
+              OutlinedButton(
+                onPressed: onRetry,
+                child: Text(l10n.retryButton),
+              ),
+            ],
+          ),
         ),
       ),
     );
