@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserProfileModel {
 
- String get id; String get displayName; String? get bio; String? get cyclingType; String? get avatarUrl;
+ String get id; String get displayName; String? get bio; String? get cyclingType; String? get avatarUrl; String? get displayArea; int get listingCount; int get threadCount;
 /// Create a copy of UserProfileModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $UserProfileModelCopyWith<UserProfileModel> get copyWith => _$UserProfileModelCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfileModel&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfileModel&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.displayArea, displayArea) || other.displayArea == displayArea)&&(identical(other.listingCount, listingCount) || other.listingCount == listingCount)&&(identical(other.threadCount, threadCount) || other.threadCount == threadCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,displayName,bio,cyclingType,avatarUrl);
+int get hashCode => Object.hash(runtimeType,id,displayName,bio,cyclingType,avatarUrl,displayArea,listingCount,threadCount);
 
 @override
 String toString() {
-  return 'UserProfileModel(id: $id, displayName: $displayName, bio: $bio, cyclingType: $cyclingType, avatarUrl: $avatarUrl)';
+  return 'UserProfileModel(id: $id, displayName: $displayName, bio: $bio, cyclingType: $cyclingType, avatarUrl: $avatarUrl, displayArea: $displayArea, listingCount: $listingCount, threadCount: $threadCount)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $UserProfileModelCopyWith<$Res>  {
   factory $UserProfileModelCopyWith(UserProfileModel value, $Res Function(UserProfileModel) _then) = _$UserProfileModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String displayName, String? bio, String? cyclingType, String? avatarUrl
+ String id, String displayName, String? bio, String? cyclingType, String? avatarUrl, String? displayArea, int listingCount, int threadCount
 });
 
 
@@ -65,14 +65,17 @@ class _$UserProfileModelCopyWithImpl<$Res>
 
 /// Create a copy of UserProfileModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? displayName = null,Object? bio = freezed,Object? cyclingType = freezed,Object? avatarUrl = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? displayName = null,Object? bio = freezed,Object? cyclingType = freezed,Object? avatarUrl = freezed,Object? displayArea = freezed,Object? listingCount = null,Object? threadCount = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,cyclingType: freezed == cyclingType ? _self.cyclingType : cyclingType // ignore: cast_nullable_to_non_nullable
 as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,displayArea: freezed == displayArea ? _self.displayArea : displayArea // ignore: cast_nullable_to_non_nullable
+as String?,listingCount: null == listingCount ? _self.listingCount : listingCount // ignore: cast_nullable_to_non_nullable
+as int,threadCount: null == threadCount ? _self.threadCount : threadCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -157,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String displayName,  String? bio,  String? cyclingType,  String? avatarUrl)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String displayName,  String? bio,  String? cyclingType,  String? avatarUrl,  String? displayArea,  int listingCount,  int threadCount)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserProfileModel() when $default != null:
-return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.avatarUrl);case _:
+return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.avatarUrl,_that.displayArea,_that.listingCount,_that.threadCount);case _:
   return orElse();
 
 }
@@ -178,10 +181,10 @@ return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.ava
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String displayName,  String? bio,  String? cyclingType,  String? avatarUrl)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String displayName,  String? bio,  String? cyclingType,  String? avatarUrl,  String? displayArea,  int listingCount,  int threadCount)  $default,) {final _that = this;
 switch (_that) {
 case _UserProfileModel():
-return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.avatarUrl);case _:
+return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.avatarUrl,_that.displayArea,_that.listingCount,_that.threadCount);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -198,10 +201,10 @@ return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.ava
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String displayName,  String? bio,  String? cyclingType,  String? avatarUrl)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String displayName,  String? bio,  String? cyclingType,  String? avatarUrl,  String? displayArea,  int listingCount,  int threadCount)?  $default,) {final _that = this;
 switch (_that) {
 case _UserProfileModel() when $default != null:
-return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.avatarUrl);case _:
+return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.avatarUrl,_that.displayArea,_that.listingCount,_that.threadCount);case _:
   return null;
 
 }
@@ -213,7 +216,7 @@ return $default(_that.id,_that.displayName,_that.bio,_that.cyclingType,_that.ava
 @JsonSerializable()
 
 class _UserProfileModel implements UserProfileModel {
-  const _UserProfileModel({required this.id, required this.displayName, this.bio, this.cyclingType, this.avatarUrl});
+  const _UserProfileModel({required this.id, required this.displayName, this.bio, this.cyclingType, this.avatarUrl, this.displayArea, this.listingCount = 0, this.threadCount = 0});
   factory _UserProfileModel.fromJson(Map<String, dynamic> json) => _$UserProfileModelFromJson(json);
 
 @override final  String id;
@@ -221,6 +224,9 @@ class _UserProfileModel implements UserProfileModel {
 @override final  String? bio;
 @override final  String? cyclingType;
 @override final  String? avatarUrl;
+@override final  String? displayArea;
+@override@JsonKey() final  int listingCount;
+@override@JsonKey() final  int threadCount;
 
 /// Create a copy of UserProfileModel
 /// with the given fields replaced by the non-null parameter values.
@@ -235,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfileModel&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfileModel&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.displayArea, displayArea) || other.displayArea == displayArea)&&(identical(other.listingCount, listingCount) || other.listingCount == listingCount)&&(identical(other.threadCount, threadCount) || other.threadCount == threadCount));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,displayName,bio,cyclingType,avatarUrl);
+int get hashCode => Object.hash(runtimeType,id,displayName,bio,cyclingType,avatarUrl,displayArea,listingCount,threadCount);
 
 @override
 String toString() {
-  return 'UserProfileModel(id: $id, displayName: $displayName, bio: $bio, cyclingType: $cyclingType, avatarUrl: $avatarUrl)';
+  return 'UserProfileModel(id: $id, displayName: $displayName, bio: $bio, cyclingType: $cyclingType, avatarUrl: $avatarUrl, displayArea: $displayArea, listingCount: $listingCount, threadCount: $threadCount)';
 }
 
 
@@ -255,7 +261,7 @@ abstract mixin class _$UserProfileModelCopyWith<$Res> implements $UserProfileMod
   factory _$UserProfileModelCopyWith(_UserProfileModel value, $Res Function(_UserProfileModel) _then) = __$UserProfileModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String displayName, String? bio, String? cyclingType, String? avatarUrl
+ String id, String displayName, String? bio, String? cyclingType, String? avatarUrl, String? displayArea, int listingCount, int threadCount
 });
 
 
@@ -272,14 +278,17 @@ class __$UserProfileModelCopyWithImpl<$Res>
 
 /// Create a copy of UserProfileModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? displayName = null,Object? bio = freezed,Object? cyclingType = freezed,Object? avatarUrl = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? displayName = null,Object? bio = freezed,Object? cyclingType = freezed,Object? avatarUrl = freezed,Object? displayArea = freezed,Object? listingCount = null,Object? threadCount = null,}) {
   return _then(_UserProfileModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
 as String,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
 as String?,cyclingType: freezed == cyclingType ? _self.cyclingType : cyclingType // ignore: cast_nullable_to_non_nullable
 as String?,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,displayArea: freezed == displayArea ? _self.displayArea : displayArea // ignore: cast_nullable_to_non_nullable
+as String?,listingCount: null == listingCount ? _self.listingCount : listingCount // ignore: cast_nullable_to_non_nullable
+as int,threadCount: null == threadCount ? _self.threadCount : threadCount // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

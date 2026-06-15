@@ -11,6 +11,9 @@ abstract class UserProfileModel with _$UserProfileModel {
     String? bio,
     String? cyclingType,
     String? avatarUrl,
+    String? displayArea,
+    @Default(0) int listingCount,
+    @Default(0) int threadCount,
   }) = _UserProfileModel;
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) =>

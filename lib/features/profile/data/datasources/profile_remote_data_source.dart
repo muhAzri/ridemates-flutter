@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:ridemates/core/network/api_exception.dart';
+import 'package:ridemates/features/profile/data/models/profile_listing_model.dart';
 import 'package:ridemates/features/profile/data/models/user_profile_model.dart';
 
 class ProfileRemoteDataSource {
@@ -13,6 +14,21 @@ class ProfileRemoteDataSource {
     try {
       final res = await _dio.get<Map<String, dynamic>>('/users/me');
       return UserProfileModel.fromJson(res.data!);
+    } on DioException catch (e) {
+      throw _toApiException(e);
+    }
+  }
+
+  /// First page of a user's listings (`GET /users/{userId}/listings`).
+  /// Returns the items from the §1.5 `{ data, page }` envelope.
+  Future<List<ProfileListingModel>> getUserListings(String userId) async {
+    try {
+      final res = await _dio.get<Map<String, dynamic>>(
+        '/users/$userId/listings',
+      );
+      final data = (res.data?['data'] as List<dynamic>? ?? <dynamic>[])
+          .cast<Map<String, dynamic>>();
+      return data.map(ProfileListingModel.fromJson).toList();
     } on DioException catch (e) {
       throw _toApiException(e);
     }

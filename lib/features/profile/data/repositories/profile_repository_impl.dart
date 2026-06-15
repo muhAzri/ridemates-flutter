@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:ridemates/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:ridemates/features/profile/data/services/profile_mapper.dart';
 import 'package:ridemates/features/profile/domain/entities/cycling_type.dart';
+import 'package:ridemates/features/profile/domain/entities/profile_listing.dart';
 import 'package:ridemates/features/profile/domain/entities/user_profile.dart';
 import 'package:ridemates/features/profile/domain/repositories/profile_repository.dart';
 
@@ -15,6 +16,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<UserProfile> getMyProfile() async {
     final model = await _remote.getMe();
     return model.toEntity();
+  }
+
+  @override
+  Future<List<ProfileListing>> getUserListings(String userId) async {
+    final models = await _remote.getUserListings(userId);
+    return models.map((m) => m.toEntity()).toList();
   }
 
   @override
