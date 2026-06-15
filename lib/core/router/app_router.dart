@@ -5,7 +5,7 @@ import 'package:ridemates/core/di/injection.dart';
 import 'package:ridemates/core/router/app_routes.dart';
 import 'package:ridemates/features/auth/presentation/screens/create_account_screen.dart';
 import 'package:ridemates/features/auth/presentation/screens/login_screen.dart';
-import 'package:ridemates/features/home/presentation/screens/home_screen.dart';
+import 'package:ridemates/features/home/presentation/screens/home_shell.dart';
 import 'package:ridemates/features/location/presentation/screens/set_location_screen.dart';
 import 'package:ridemates/features/profile/presentation/screens/profile_setup_screen.dart';
 import 'package:ridemates/features/splash/presentation/screens/splash_screen.dart';
@@ -44,7 +44,7 @@ GoRouter createRouter() {
       GoRoute(
         path: AppRoutes.home,
         name: 'home',
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const HomeShell(),
       ),
     ],
   );

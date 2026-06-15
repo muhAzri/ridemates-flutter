@@ -1,11 +1,6 @@
 {
     "@@locale": "en",
 
-    "homeTitle": "Home",
-    "@homeTitle": { "description": "Title of the placeholder home screen" },
-    "homeComingSoonMessage": "Your community feed is coming soon.",
-    "logoutButton": "Log out",
-
     "appTagline": "Find your cycling community.",
     "@appTagline": { "description": "Brand tagline shown under the logo" },
 
