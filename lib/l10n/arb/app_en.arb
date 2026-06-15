@@ -77,5 +77,60 @@
 
     "loginFailedMessage": "Could not sign in. Please try again.",
     "signUpFailedMessage": "Could not create your account. Please try again.",
-    "profileSaveFailedMessage": "Could not save your profile. Please try again."
+    "profileSaveFailedMessage": "Could not save your profile. Please try again.",
+
+    "navMarket": "Market",
+    "@navMarket": { "description": "Bottom-nav label for the marketplace/browse tab" },
+    "navForum": "Forum",
+    "navChats": "Chats",
+    "navProfile": "Profile",
+
+    "createListingAction": "Create a listing",
+    "@createListingAction": { "description": "Create action surfaced by the home center button on most tabs" },
+    "createThreadAction": "Start a discussion",
+    "comingSoonAction": "{feature} — coming soon",
+    "@comingSoonAction": {
+        "description": "Snackbar shown when a not-yet-built create flow is triggered",
+        "placeholders": { "feature": { "type": "String" } }
+    },
+
+    "browseEyebrow": "Marketplace",
+    "@browseEyebrow": { "description": "Small eyebrow label above the area selector on Browse" },
+    "searchGearHint": "Search gear & bikes…",
+    "nearestToYou": "Nearest to you",
+    "withinKm": "Within {km} km",
+    "@withinKm": {
+        "description": "Radius pill on Browse showing the active search distance",
+        "placeholders": { "km": { "type": "int" } }
+    },
+    "categoryAll": "All",
+    "categoryBikes": "Bikes",
+    "categoryParts": "Parts",
+    "categoryWheels": "Wheels",
+    "categoryApparel": "Apparel",
+
+    "forumTitle": "Community",
+    "@forumTitle": { "description": "Screen title of the Forum tab" },
+    "searchDiscussionsHint": "Search discussions…",
+    "filterLatest": "Latest",
+    "topicRides": "Rides",
+    "topicTech": "Tech",
+    "topicGear": "Gear",
+
+    "chatsTitle": "Chats",
+    "@chatsTitle": { "description": "Screen title of the Chats tab (distinct from the nav label)" },
+    "searchChatsHint": "Search chats…",
+    "filterAll": "All",
+    "filterUnread": "Unread",
+    "filterBuying": "Buying",
+    "filterSelling": "Selling",
+    "editButton": "Edit",
+
+    "listingsLabel": "Listings",
+    "@listingsLabel": { "description": "Profile stat & tab label for the user's listings" },
+    "threadsLabel": "Threads",
+    "ratingLabel": "Rating",
+    "profileThreadsEmpty": "Your threads appear here.",
+    "statusActive": "Active",
+    "statusSold": "Sold"
 }
