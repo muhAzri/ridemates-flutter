@@ -82,7 +82,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
                     listenWhen: (p, c) => p.status != c.status,
                     listener: (context, state) {
                       if (state.status.isSuccess) {
-                        context.go(AppRoutes.home);
+                        // Onboarding continues to screen 04 — set location.
+                        context.go(AppRoutes.setLocation);
                       } else if (state.status.isFailure) {
                         final message =
                             state.errorMessage ?? l10n.profileSaveFailedMessage;

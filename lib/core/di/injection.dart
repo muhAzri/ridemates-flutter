@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/analytics/analytics_service.dart';
+import 'package:ridemates/core/location/device_location_service.dart';
 import 'package:ridemates/core/media/image_pick_service.dart';
 import 'package:ridemates/core/network/dio_client.dart';
 import 'package:ridemates/core/network/sse/sse_client.dart';
@@ -23,6 +24,13 @@ import 'package:ridemates/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:ridemates/features/auth/domain/usecases/register_usecase.dart';
 import 'package:ridemates/features/auth/presentation/bloc/create_account/create_account_bloc.dart';
 import 'package:ridemates/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:ridemates/features/location/data/datasources/location_remote_data_source.dart';
+import 'package:ridemates/features/location/data/datasources/nominatim_data_source.dart';
+import 'package:ridemates/features/location/data/repositories/location_repository_impl.dart';
+import 'package:ridemates/features/location/domain/repositories/location_repository.dart';
+import 'package:ridemates/features/location/domain/usecases/resolve_area_usecase.dart';
+import 'package:ridemates/features/location/domain/usecases/set_my_location_usecase.dart';
+import 'package:ridemates/features/location/presentation/bloc/set_location/set_location_bloc.dart';
 import 'package:ridemates/features/profile/data/datasources/profile_remote_data_source.dart';
 import 'package:ridemates/features/profile/data/repositories/profile_repository_impl.dart';
 import 'package:ridemates/features/profile/domain/repositories/profile_repository.dart';
@@ -123,6 +131,31 @@ Future<void> configureDependencies() async {
         getIt<UpdateProfileUseCase>(),
         getIt<UploadAvatarUseCase>(),
         getIt<ImagePickService>(),
+      ),
+    )
+    // --- Location feature --------------------------------------------------
+    ..registerLazySingleton<DeviceLocationService>(DeviceLocationService.new)
+    ..registerLazySingleton<NominatimDataSource>(NominatimDataSource.new)
+    ..registerLazySingleton<LocationRemoteDataSource>(
+      () => LocationRemoteDataSource(getIt<Dio>()),
+    )
+    ..registerLazySingleton<LocationRepository>(
+      () => LocationRepositoryImpl(
+        getIt<LocationRemoteDataSource>(),
+        getIt<NominatimDataSource>(),
+      ),
+    )
+    ..registerFactory<ResolveAreaUseCase>(
+      () => ResolveAreaUseCase(getIt<LocationRepository>()),
+    )
+    ..registerFactory<SetMyLocationUseCase>(
+      () => SetMyLocationUseCase(getIt<LocationRepository>()),
+    )
+    ..registerFactory<SetLocationBloc>(
+      () => SetLocationBloc(
+        getIt<DeviceLocationService>(),
+        getIt<ResolveAreaUseCase>(),
+        getIt<SetMyLocationUseCase>(),
       ),
     );
 }

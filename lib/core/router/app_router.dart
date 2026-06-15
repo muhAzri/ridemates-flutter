@@ -5,6 +5,7 @@ import 'package:ridemates/core/di/injection.dart';
 import 'package:ridemates/features/auth/presentation/screens/create_account_screen.dart';
 import 'package:ridemates/features/auth/presentation/screens/login_screen.dart';
 import 'package:ridemates/features/home/presentation/screens/home_screen.dart';
+import 'package:ridemates/features/location/presentation/screens/set_location_screen.dart';
 import 'package:ridemates/features/profile/presentation/screens/profile_setup_screen.dart';
 import 'package:ridemates/features/splash/presentation/screens/splash_screen.dart';
 
@@ -15,6 +16,7 @@ abstract final class AppRoutes {
   static const login = '/login';
   static const createAccount = '/create-account';
   static const profileSetup = '/profile-setup';
+  static const setLocation = '/set-location';
   static const home = '/home';
 }
 
@@ -45,6 +47,11 @@ GoRouter createRouter() {
         builder: (context, state) => const ProfileSetupScreen(),
       ),
       GoRoute(
+        path: AppRoutes.setLocation,
+        name: 'setLocation',
+        builder: (context, state) => const SetLocationScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.home,
         name: 'home',
         builder: (context, state) => const HomeScreen(),
@@ -61,8 +68,7 @@ String postAuthLocation({
   required bool needsLocation,
 }) {
   if (needsProfileSetup) return AppRoutes.profileSetup;
-  // TODO(onboarding): route to set-location (screen 04) once it exists; for now
-  // a remaining needsLocation still lands on home.
+  if (needsLocation) return AppRoutes.setLocation;
   return AppRoutes.home;
 }
 
