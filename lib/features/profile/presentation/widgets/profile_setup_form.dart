@@ -29,6 +29,12 @@ class ProfileSetupForm extends StatelessWidget {
     final selected = context.select<ProfileSetupBloc, CyclingType?>(
       (bloc) => bloc.state.cyclingType,
     );
+    final avatarUrl = context.select<ProfileSetupBloc, String?>(
+      (bloc) => bloc.state.avatarUrl,
+    );
+    final isUploadingAvatar = context.select<ProfileSetupBloc, bool>(
+      (bloc) => bloc.state.isUploadingAvatar,
+    );
 
     return Form(
       key: formKey,
@@ -38,7 +44,11 @@ class ProfileSetupForm extends StatelessWidget {
           Center(
             child: AvatarPicker(
               semanticLabel: l10n.addPhotoLabel,
-              onTap: () {},
+              imageUrl: avatarUrl,
+              isLoading: isUploadingAvatar,
+              onTap: () => context.read<ProfileSetupBloc>().add(
+                const ProfileSetupAvatarPickRequested(),
+              ),
             ),
           ),
           const SizedBox(height: AppSpacing.xl),
@@ -58,10 +68,35 @@ class ProfileSetupForm extends StatelessWidget {
             style: AppTypography.label.copyWith(letterSpacing: 0),
           ),
           const SizedBox(height: AppSpacing.sm),
-          CyclingTypeSelector(
-            selected: selected,
-            onSelected: (type) => context.read<ProfileSetupBloc>().add(
-              ProfileSetupCyclingTypeSelected(type),
+          // Required: cyclingType is what drives needsProfileSetup, so the
+          // selector takes part in form validation.
+          FormField<CyclingType>(
+            initialValue: selected,
+            validator: (value) =>
+                value == null ? l10n.validationCyclingTypeRequired : null,
+            builder: (field) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CyclingTypeSelector(
+                  selected: selected,
+                  onSelected: (type) {
+                    context.read<ProfileSetupBloc>().add(
+                      ProfileSetupCyclingTypeSelected(type),
+                    );
+                    field.didChange(type);
+                  },
+                ),
+                if (field.hasError)
+                  Padding(
+                    padding: const EdgeInsets.only(top: AppSpacing.xs),
+                    child: Text(
+                      field.errorText!,
+                      style: AppTypography.caption.copyWith(
+                        color: AppColors.error,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: AppSpacing.md),

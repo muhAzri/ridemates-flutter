@@ -62,6 +62,7 @@
     "validationConfirmPasswordRequired": "Please confirm your password.",
     "validationPasswordMismatch": "Passwords do not match.",
     "validationDisplayNameRequired": "Display name is required.",
+    "validationCyclingTypeRequired": "Please choose what you ride.",
 
     "loginFailedMessage": "Could not sign in. Please try again.",
     "signUpFailedMessage": "Could not create your account. Please try again.",
