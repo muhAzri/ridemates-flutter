@@ -3,6 +3,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Android 13+ runtime permission for showing FCM/local notifications. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Auto-centres the set-location map on the device (screen 04); the pin
+         the user confirms is the source of truth, not this fix (FSD §5.2.1). -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:label="${appName}"
         android:name="${applicationName}"
