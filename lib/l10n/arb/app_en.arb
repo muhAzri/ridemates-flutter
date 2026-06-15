@@ -124,7 +124,6 @@
     "listingsLabel": "Listings",
     "@listingsLabel": { "description": "Profile stat & tab label for the user's listings" },
     "threadsLabel": "Threads",
-    "ratingLabel": "Rating",
     "profileThreadsEmpty": "Your threads appear here.",
     "statusActive": "Active",
     "statusSold": "Sold"

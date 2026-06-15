@@ -53,10 +53,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Expanded(child: _Stat(value: '8', label: l10n.listingsLabel)),
           _divider(),
           Expanded(child: _Stat(value: '23', label: l10n.threadsLabel)),
-          _divider(),
-          Expanded(
-            child: _Stat(value: '4.9', label: l10n.ratingLabel, isRating: true),
-          ),
         ],
       ),
     );
@@ -230,36 +226,22 @@ class _PineHeader extends StatelessWidget {
 }
 
 class _Stat extends StatelessWidget {
-  const _Stat({
-    required this.value,
-    required this.label,
-    this.isRating = false,
-  });
+  const _Stat({required this.value, required this.label});
 
   final String value;
   final String label;
-  final bool isRating;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (isRating) ...[
-              const Icon(Icons.star_rounded, size: 16, color: AppColors.clay),
-              const SizedBox(width: 3),
-            ],
-            Text(
-              value,
-              style: AppTypography.body.copyWith(
-                fontSize: 18,
-                height: 1,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ],
+        Text(
+          value,
+          style: AppTypography.body.copyWith(
+            fontSize: 18,
+            height: 1,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         const SizedBox(height: 4),
         Text(
