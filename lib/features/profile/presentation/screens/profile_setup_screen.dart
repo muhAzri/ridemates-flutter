@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/di/injection.dart';
-import 'package:ridemates/core/router/app_router.dart';
+import 'package:ridemates/core/router/app_routes.dart';
 import 'package:ridemates/core/theme/theme.dart';
 import 'package:ridemates/core/widgets/widgets.dart';
 import 'package:ridemates/features/profile/presentation/bloc/profile_setup/profile_setup_bloc.dart';

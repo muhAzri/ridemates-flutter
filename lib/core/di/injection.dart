@@ -12,6 +12,7 @@ import 'package:ridemates/core/network/dio_client.dart';
 import 'package:ridemates/core/network/sse/sse_client.dart';
 import 'package:ridemates/core/notifications/push_notification_service.dart';
 import 'package:ridemates/core/router/app_router.dart';
+import 'package:ridemates/core/router/app_routes.dart';
 import 'package:ridemates/core/storage/secure_token_storage.dart';
 import 'package:ridemates/core/storage/token_storage.dart';
 import 'package:ridemates/features/auth/data/datasources/auth_remote_data_source.dart';

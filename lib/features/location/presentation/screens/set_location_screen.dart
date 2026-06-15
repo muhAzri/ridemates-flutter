@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/di/injection.dart';
-import 'package:ridemates/core/router/app_router.dart';
+import 'package:ridemates/core/router/app_routes.dart';
 import 'package:ridemates/core/theme/theme.dart';
 import 'package:ridemates/features/location/presentation/bloc/set_location/set_location_bloc.dart';
 import 'package:ridemates/features/location/presentation/widgets/location_confirm_sheet.dart';

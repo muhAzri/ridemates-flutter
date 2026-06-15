@@ -2,23 +2,13 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/analytics/analytics_service.dart';
 import 'package:ridemates/core/di/injection.dart';
+import 'package:ridemates/core/router/app_routes.dart';
 import 'package:ridemates/features/auth/presentation/screens/create_account_screen.dart';
 import 'package:ridemates/features/auth/presentation/screens/login_screen.dart';
 import 'package:ridemates/features/home/presentation/screens/home_screen.dart';
 import 'package:ridemates/features/location/presentation/screens/set_location_screen.dart';
 import 'package:ridemates/features/profile/presentation/screens/profile_setup_screen.dart';
 import 'package:ridemates/features/splash/presentation/screens/splash_screen.dart';
-
-/// Centralised route names/paths so navigation stays type-safe-ish and
-/// refactorable from one place.
-abstract final class AppRoutes {
-  static const splash = '/';
-  static const login = '/login';
-  static const createAccount = '/create-account';
-  static const profileSetup = '/profile-setup';
-  static const setLocation = '/set-location';
-  static const home = '/home';
-}
 
 /// Builds the app [GoRouter]. Registered as a singleton in the DI container.
 GoRouter createRouter() {
