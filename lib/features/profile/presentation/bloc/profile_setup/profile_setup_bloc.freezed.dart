@@ -55,11 +55,13 @@ extension ProfileSetupEventPatterns on ProfileSetupEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ProfileSetupCyclingTypeSelected value)?  cyclingTypeSelected,TResult Function( ProfileSetupSubmitted value)?  submitted,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ProfileSetupStarted value)?  started,TResult Function( ProfileSetupCyclingTypeSelected value)?  cyclingTypeSelected,TResult Function( ProfileSetupAvatarPickRequested value)?  avatarPickRequested,TResult Function( ProfileSetupSubmitted value)?  submitted,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
-return cyclingTypeSelected(_that);case ProfileSetupSubmitted() when submitted != null:
+case ProfileSetupStarted() when started != null:
+return started(_that);case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
+return cyclingTypeSelected(_that);case ProfileSetupAvatarPickRequested() when avatarPickRequested != null:
+return avatarPickRequested(_that);case ProfileSetupSubmitted() when submitted != null:
 return submitted(_that);case _:
   return orElse();
 
@@ -78,11 +80,13 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ProfileSetupCyclingTypeSelected value)  cyclingTypeSelected,required TResult Function( ProfileSetupSubmitted value)  submitted,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ProfileSetupStarted value)  started,required TResult Function( ProfileSetupCyclingTypeSelected value)  cyclingTypeSelected,required TResult Function( ProfileSetupAvatarPickRequested value)  avatarPickRequested,required TResult Function( ProfileSetupSubmitted value)  submitted,}){
 final _that = this;
 switch (_that) {
-case ProfileSetupCyclingTypeSelected():
-return cyclingTypeSelected(_that);case ProfileSetupSubmitted():
+case ProfileSetupStarted():
+return started(_that);case ProfileSetupCyclingTypeSelected():
+return cyclingTypeSelected(_that);case ProfileSetupAvatarPickRequested():
+return avatarPickRequested(_that);case ProfileSetupSubmitted():
 return submitted(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -97,11 +101,13 @@ return submitted(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ProfileSetupCyclingTypeSelected value)?  cyclingTypeSelected,TResult? Function( ProfileSetupSubmitted value)?  submitted,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ProfileSetupStarted value)?  started,TResult? Function( ProfileSetupCyclingTypeSelected value)?  cyclingTypeSelected,TResult? Function( ProfileSetupAvatarPickRequested value)?  avatarPickRequested,TResult? Function( ProfileSetupSubmitted value)?  submitted,}){
 final _that = this;
 switch (_that) {
-case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
-return cyclingTypeSelected(_that);case ProfileSetupSubmitted() when submitted != null:
+case ProfileSetupStarted() when started != null:
+return started(_that);case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
+return cyclingTypeSelected(_that);case ProfileSetupAvatarPickRequested() when avatarPickRequested != null:
+return avatarPickRequested(_that);case ProfileSetupSubmitted() when submitted != null:
 return submitted(_that);case _:
   return null;
 
@@ -119,10 +125,12 @@ return submitted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( CyclingType cyclingType)?  cyclingTypeSelected,TResult Function( String displayName,  String bio)?  submitted,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( CyclingType cyclingType)?  cyclingTypeSelected,TResult Function()?  avatarPickRequested,TResult Function( String displayName,  String bio)?  submitted,required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
-return cyclingTypeSelected(_that.cyclingType);case ProfileSetupSubmitted() when submitted != null:
+case ProfileSetupStarted() when started != null:
+return started();case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
+return cyclingTypeSelected(_that.cyclingType);case ProfileSetupAvatarPickRequested() when avatarPickRequested != null:
+return avatarPickRequested();case ProfileSetupSubmitted() when submitted != null:
 return submitted(_that.displayName,_that.bio);case _:
   return orElse();
 
@@ -141,10 +149,12 @@ return submitted(_that.displayName,_that.bio);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( CyclingType cyclingType)  cyclingTypeSelected,required TResult Function( String displayName,  String bio)  submitted,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( CyclingType cyclingType)  cyclingTypeSelected,required TResult Function()  avatarPickRequested,required TResult Function( String displayName,  String bio)  submitted,}) {final _that = this;
 switch (_that) {
-case ProfileSetupCyclingTypeSelected():
-return cyclingTypeSelected(_that.cyclingType);case ProfileSetupSubmitted():
+case ProfileSetupStarted():
+return started();case ProfileSetupCyclingTypeSelected():
+return cyclingTypeSelected(_that.cyclingType);case ProfileSetupAvatarPickRequested():
+return avatarPickRequested();case ProfileSetupSubmitted():
 return submitted(_that.displayName,_that.bio);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -159,10 +169,12 @@ return submitted(_that.displayName,_that.bio);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( CyclingType cyclingType)?  cyclingTypeSelected,TResult? Function( String displayName,  String bio)?  submitted,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( CyclingType cyclingType)?  cyclingTypeSelected,TResult? Function()?  avatarPickRequested,TResult? Function( String displayName,  String bio)?  submitted,}) {final _that = this;
 switch (_that) {
-case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
-return cyclingTypeSelected(_that.cyclingType);case ProfileSetupSubmitted() when submitted != null:
+case ProfileSetupStarted() when started != null:
+return started();case ProfileSetupCyclingTypeSelected() when cyclingTypeSelected != null:
+return cyclingTypeSelected(_that.cyclingType);case ProfileSetupAvatarPickRequested() when avatarPickRequested != null:
+return avatarPickRequested();case ProfileSetupSubmitted() when submitted != null:
 return submitted(_that.displayName,_that.bio);case _:
   return null;
 
@@ -170,6 +182,38 @@ return submitted(_that.displayName,_that.bio);case _:
 }
 
 }
+
+/// @nodoc
+
+
+class ProfileSetupStarted implements ProfileSetupEvent {
+  const ProfileSetupStarted();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileSetupStarted);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ProfileSetupEvent.started()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 
@@ -236,6 +280,38 @@ as CyclingType,
 
 
 }
+
+/// @nodoc
+
+
+class ProfileSetupAvatarPickRequested implements ProfileSetupEvent {
+  const ProfileSetupAvatarPickRequested();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileSetupAvatarPickRequested);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ProfileSetupEvent.avatarPickRequested()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 
@@ -308,7 +384,7 @@ as String,
 /// @nodoc
 mixin _$ProfileSetupState {
 
- CyclingType? get cyclingType; FormStatus get status; String? get errorMessage;
+ bool get isLoading; bool get isUploadingAvatar; FormStatus get status; String? get avatarUrl; String? get displayName; String? get bio; CyclingType? get cyclingType; String? get errorMessage;
 /// Create a copy of ProfileSetupState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -319,16 +395,16 @@ $ProfileSetupStateCopyWith<ProfileSetupState> get copyWith => _$ProfileSetupStat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileSetupState&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileSetupState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isUploadingAvatar, isUploadingAvatar) || other.isUploadingAvatar == isUploadingAvatar)&&(identical(other.status, status) || other.status == status)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,cyclingType,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,isLoading,isUploadingAvatar,status,avatarUrl,displayName,bio,cyclingType,errorMessage);
 
 @override
 String toString() {
-  return 'ProfileSetupState(cyclingType: $cyclingType, status: $status, errorMessage: $errorMessage)';
+  return 'ProfileSetupState(isLoading: $isLoading, isUploadingAvatar: $isUploadingAvatar, status: $status, avatarUrl: $avatarUrl, displayName: $displayName, bio: $bio, cyclingType: $cyclingType, errorMessage: $errorMessage)';
 }
 
 
@@ -339,7 +415,7 @@ abstract mixin class $ProfileSetupStateCopyWith<$Res>  {
   factory $ProfileSetupStateCopyWith(ProfileSetupState value, $Res Function(ProfileSetupState) _then) = _$ProfileSetupStateCopyWithImpl;
 @useResult
 $Res call({
- CyclingType? cyclingType, FormStatus status, String? errorMessage
+ bool isLoading, bool isUploadingAvatar, FormStatus status, String? avatarUrl, String? displayName, String? bio, CyclingType? cyclingType, String? errorMessage
 });
 
 
@@ -356,11 +432,16 @@ class _$ProfileSetupStateCopyWithImpl<$Res>
 
 /// Create a copy of ProfileSetupState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cyclingType = freezed,Object? status = null,Object? errorMessage = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isUploadingAvatar = null,Object? status = null,Object? avatarUrl = freezed,Object? displayName = freezed,Object? bio = freezed,Object? cyclingType = freezed,Object? errorMessage = freezed,}) {
   return _then(_self.copyWith(
-cyclingType: freezed == cyclingType ? _self.cyclingType : cyclingType // ignore: cast_nullable_to_non_nullable
-as CyclingType?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FormStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,isUploadingAvatar: null == isUploadingAvatar ? _self.isUploadingAvatar : isUploadingAvatar // ignore: cast_nullable_to_non_nullable
+as bool,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as FormStatus,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
+as String?,cyclingType: freezed == cyclingType ? _self.cyclingType : cyclingType // ignore: cast_nullable_to_non_nullable
+as CyclingType?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -446,10 +527,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( CyclingType? cyclingType,  FormStatus status,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  bool isUploadingAvatar,  FormStatus status,  String? avatarUrl,  String? displayName,  String? bio,  CyclingType? cyclingType,  String? errorMessage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ProfileSetupState() when $default != null:
-return $default(_that.cyclingType,_that.status,_that.errorMessage);case _:
+return $default(_that.isLoading,_that.isUploadingAvatar,_that.status,_that.avatarUrl,_that.displayName,_that.bio,_that.cyclingType,_that.errorMessage);case _:
   return orElse();
 
 }
@@ -467,10 +548,10 @@ return $default(_that.cyclingType,_that.status,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( CyclingType? cyclingType,  FormStatus status,  String? errorMessage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  bool isUploadingAvatar,  FormStatus status,  String? avatarUrl,  String? displayName,  String? bio,  CyclingType? cyclingType,  String? errorMessage)  $default,) {final _that = this;
 switch (_that) {
 case _ProfileSetupState():
-return $default(_that.cyclingType,_that.status,_that.errorMessage);case _:
+return $default(_that.isLoading,_that.isUploadingAvatar,_that.status,_that.avatarUrl,_that.displayName,_that.bio,_that.cyclingType,_that.errorMessage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -487,10 +568,10 @@ return $default(_that.cyclingType,_that.status,_that.errorMessage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( CyclingType? cyclingType,  FormStatus status,  String? errorMessage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  bool isUploadingAvatar,  FormStatus status,  String? avatarUrl,  String? displayName,  String? bio,  CyclingType? cyclingType,  String? errorMessage)?  $default,) {final _that = this;
 switch (_that) {
 case _ProfileSetupState() when $default != null:
-return $default(_that.cyclingType,_that.status,_that.errorMessage);case _:
+return $default(_that.isLoading,_that.isUploadingAvatar,_that.status,_that.avatarUrl,_that.displayName,_that.bio,_that.cyclingType,_that.errorMessage);case _:
   return null;
 
 }
@@ -502,11 +583,16 @@ return $default(_that.cyclingType,_that.status,_that.errorMessage);case _:
 
 
 class _ProfileSetupState implements ProfileSetupState {
-  const _ProfileSetupState({this.cyclingType, this.status = FormStatus.initial, this.errorMessage});
+  const _ProfileSetupState({this.isLoading = true, this.isUploadingAvatar = false, this.status = FormStatus.initial, this.avatarUrl, this.displayName, this.bio, this.cyclingType, this.errorMessage});
   
 
-@override final  CyclingType? cyclingType;
+@override@JsonKey() final  bool isLoading;
+@override@JsonKey() final  bool isUploadingAvatar;
 @override@JsonKey() final  FormStatus status;
+@override final  String? avatarUrl;
+@override final  String? displayName;
+@override final  String? bio;
+@override final  CyclingType? cyclingType;
 @override final  String? errorMessage;
 
 /// Create a copy of ProfileSetupState
@@ -519,16 +605,16 @@ _$ProfileSetupStateCopyWith<_ProfileSetupState> get copyWith => __$ProfileSetupS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileSetupState&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.status, status) || other.status == status)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProfileSetupState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isUploadingAvatar, isUploadingAvatar) || other.isUploadingAvatar == isUploadingAvatar)&&(identical(other.status, status) || other.status == status)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.bio, bio) || other.bio == bio)&&(identical(other.cyclingType, cyclingType) || other.cyclingType == cyclingType)&&(identical(other.errorMessage, errorMessage) || other.errorMessage == errorMessage));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,cyclingType,status,errorMessage);
+int get hashCode => Object.hash(runtimeType,isLoading,isUploadingAvatar,status,avatarUrl,displayName,bio,cyclingType,errorMessage);
 
 @override
 String toString() {
-  return 'ProfileSetupState(cyclingType: $cyclingType, status: $status, errorMessage: $errorMessage)';
+  return 'ProfileSetupState(isLoading: $isLoading, isUploadingAvatar: $isUploadingAvatar, status: $status, avatarUrl: $avatarUrl, displayName: $displayName, bio: $bio, cyclingType: $cyclingType, errorMessage: $errorMessage)';
 }
 
 
@@ -539,7 +625,7 @@ abstract mixin class _$ProfileSetupStateCopyWith<$Res> implements $ProfileSetupS
   factory _$ProfileSetupStateCopyWith(_ProfileSetupState value, $Res Function(_ProfileSetupState) _then) = __$ProfileSetupStateCopyWithImpl;
 @override @useResult
 $Res call({
- CyclingType? cyclingType, FormStatus status, String? errorMessage
+ bool isLoading, bool isUploadingAvatar, FormStatus status, String? avatarUrl, String? displayName, String? bio, CyclingType? cyclingType, String? errorMessage
 });
 
 
@@ -556,11 +642,16 @@ class __$ProfileSetupStateCopyWithImpl<$Res>
 
 /// Create a copy of ProfileSetupState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? cyclingType = freezed,Object? status = null,Object? errorMessage = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isUploadingAvatar = null,Object? status = null,Object? avatarUrl = freezed,Object? displayName = freezed,Object? bio = freezed,Object? cyclingType = freezed,Object? errorMessage = freezed,}) {
   return _then(_ProfileSetupState(
-cyclingType: freezed == cyclingType ? _self.cyclingType : cyclingType // ignore: cast_nullable_to_non_nullable
-as CyclingType?,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as FormStatus,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
+isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,isUploadingAvatar: null == isUploadingAvatar ? _self.isUploadingAvatar : isUploadingAvatar // ignore: cast_nullable_to_non_nullable
+as bool,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as FormStatus,avatarUrl: freezed == avatarUrl ? _self.avatarUrl : avatarUrl // ignore: cast_nullable_to_non_nullable
+as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
+as String?,bio: freezed == bio ? _self.bio : bio // ignore: cast_nullable_to_non_nullable
+as String?,cyclingType: freezed == cyclingType ? _self.cyclingType : cyclingType // ignore: cast_nullable_to_non_nullable
+as CyclingType?,errorMessage: freezed == errorMessage ? _self.errorMessage : errorMessage // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

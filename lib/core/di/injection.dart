@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/analytics/analytics_service.dart';
+import 'package:ridemates/core/media/image_pick_service.dart';
 import 'package:ridemates/core/network/dio_client.dart';
 import 'package:ridemates/core/network/sse/sse_client.dart';
 import 'package:ridemates/core/notifications/push_notification_service.dart';
@@ -22,6 +23,13 @@ import 'package:ridemates/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:ridemates/features/auth/domain/usecases/register_usecase.dart';
 import 'package:ridemates/features/auth/presentation/bloc/create_account/create_account_bloc.dart';
 import 'package:ridemates/features/auth/presentation/bloc/login/login_bloc.dart';
+import 'package:ridemates/features/profile/data/datasources/profile_remote_data_source.dart';
+import 'package:ridemates/features/profile/data/repositories/profile_repository_impl.dart';
+import 'package:ridemates/features/profile/domain/repositories/profile_repository.dart';
+import 'package:ridemates/features/profile/domain/usecases/get_my_profile_usecase.dart';
+import 'package:ridemates/features/profile/domain/usecases/update_profile_usecase.dart';
+import 'package:ridemates/features/profile/domain/usecases/upload_avatar_usecase.dart';
+import 'package:ridemates/features/profile/presentation/bloc/profile_setup/profile_setup_bloc.dart';
 
 /// Global service locator.
 final GetIt getIt = GetIt.instance;
@@ -90,6 +98,31 @@ Future<void> configureDependencies() async {
       () => CreateAccountBloc(
         getIt<RegisterUseCase>(),
         getIt<GoogleSignInUseCase>(),
+      ),
+    )
+    // --- Profile feature ---------------------------------------------------
+    ..registerLazySingleton<ProfileRemoteDataSource>(
+      () => ProfileRemoteDataSource(getIt<Dio>()),
+    )
+    ..registerLazySingleton<ProfileRepository>(
+      () => ProfileRepositoryImpl(getIt<ProfileRemoteDataSource>()),
+    )
+    ..registerFactory<GetMyProfileUseCase>(
+      () => GetMyProfileUseCase(getIt<ProfileRepository>()),
+    )
+    ..registerFactory<UpdateProfileUseCase>(
+      () => UpdateProfileUseCase(getIt<ProfileRepository>()),
+    )
+    ..registerFactory<UploadAvatarUseCase>(
+      () => UploadAvatarUseCase(getIt<ProfileRepository>()),
+    )
+    ..registerLazySingleton<ImagePickService>(ImagePickService.new)
+    ..registerFactory<ProfileSetupBloc>(
+      () => ProfileSetupBloc(
+        getIt<GetMyProfileUseCase>(),
+        getIt<UpdateProfileUseCase>(),
+        getIt<UploadAvatarUseCase>(),
+        getIt<ImagePickService>(),
       ),
     );
 }
