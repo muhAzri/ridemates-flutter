@@ -5,3 +5,4 @@ export 'app_text_field.dart';
 export 'google_button.dart';
 export 'or_divider.dart';
 export 'primary_button.dart';
+export 'skeleton.dart';
