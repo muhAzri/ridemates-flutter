@@ -8,4 +8,5 @@ abstract final class AppRoutes {
   static const profileSetup = '/profile-setup';
   static const setLocation = '/set-location';
   static const home = '/home';
+  static const settings = '/settings';
 }

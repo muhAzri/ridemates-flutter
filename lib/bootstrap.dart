@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ridemates/core/di/injection.dart';
 import 'package:ridemates/core/firebase/firebase_bootstrap.dart';
@@ -48,6 +49,11 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   );
 
   await configureDependencies();
+
+  // Real app version/build from the platform package metadata (shown in
+  // Settings "What's new", and reusable for feedback). Read here rather than in
+  // configureDependencies so the platform channel isn't hit in unit tests.
+  getIt.registerSingleton<PackageInfo>(await PackageInfo.fromPlatform());
 
   // Load any stored access token into memory so the first authed request and
   // the Dio interceptor have it synchronously.

@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ridemates/core/di/injection.dart';
 import 'package:ridemates/core/router/app_routes.dart';
-import 'package:ridemates/core/storage/token_storage.dart';
 import 'package:ridemates/core/theme/theme.dart';
 import 'package:ridemates/core/utils/currency.dart';
 import 'package:ridemates/core/widgets/widgets.dart';
@@ -28,11 +29,6 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   int _tab = 0;
 
-  Future<void> _logout() async {
-    await getIt<TokenStorage>().clearTokens();
-    if (mounted) context.go(AppRoutes.login);
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -50,7 +46,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             listings: state.listings,
             tab: _tab,
             onTab: (i) => setState(() => _tab = i),
-            onLogout: _logout,
           ),
         },
       ),
@@ -64,14 +59,12 @@ class _LoadedView extends StatelessWidget {
     required this.listings,
     required this.tab,
     required this.onTab,
-    required this.onLogout,
   });
 
   final UserProfile profile;
   final List<ProfileListing> listings;
   final int tab;
   final ValueChanged<int> onTab;
-  final VoidCallback onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +72,7 @@ class _LoadedView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _PineHeader(profile: profile, onLogout: onLogout),
+        _PineHeader(profile: profile),
         _statsStrip(l10n),
         _tabSwitcher(l10n),
         Expanded(child: _tabContent(l10n)),
@@ -156,10 +149,13 @@ class _LoadedView extends StatelessWidget {
 }
 
 class _PineHeader extends StatelessWidget {
-  const _PineHeader({required this.profile, required this.onLogout});
+  const _PineHeader({required this.profile});
 
   final UserProfile profile;
-  final VoidCallback onLogout;
+
+  void _openSettings(BuildContext context) {
+    unawaited(context.push(AppRoutes.settings));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +184,7 @@ class _PineHeader extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: onLogout,
+                      onPressed: () => _openSettings(context),
                       visualDensity: VisualDensity.compact,
                       icon: const Icon(
                         Icons.settings_outlined,

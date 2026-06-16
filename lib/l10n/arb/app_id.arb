@@ -105,6 +105,22 @@
     "statusActive": "Aktif",
     "statusSold": "Terjual",
 
+    "settingsTitle": "Pengaturan",
+    "settingsSectionAccount": "Akun",
+    "settingsEmailLabel": "Email",
+    "settingsChangePassword": "Ubah kata sandi",
+    "settingsSectionPrivacy": "Privasi & Keamanan",
+    "settingsLocationArea": "Lokasi & area",
+    "settingsBlockedUsers": "Pengguna diblokir",
+    "settingsSectionNotifications": "Notifikasi",
+    "settingsNotifNewMessages": "Pesan baru",
+    "settingsNotifReplies": "Balasan ke thread saya",
+    "settingsSectionSupport": "Bantuan",
+    "settingsSendFeedback": "Kirim masukan",
+    "settingsWhatsNew": "Yang baru",
+    "settingsValueNotSet": "Belum diatur",
+    "settingsLogOut": "Keluar",
+
     "retryButton": "Coba lagi",
     "genericErrorMessage": "Terjadi kesalahan. Coba lagi."
 }

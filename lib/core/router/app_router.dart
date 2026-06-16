@@ -8,6 +8,7 @@ import 'package:ridemates/features/auth/presentation/screens/login_screen.dart';
 import 'package:ridemates/features/home/presentation/screens/home_shell.dart';
 import 'package:ridemates/features/location/presentation/screens/set_location_screen.dart';
 import 'package:ridemates/features/profile/presentation/screens/profile_setup_screen.dart';
+import 'package:ridemates/features/settings/presentation/screens/settings_screen.dart';
 import 'package:ridemates/features/splash/presentation/screens/splash_screen.dart';
 
 /// Builds the app [GoRouter]. Registered as a singleton in the DI container.
@@ -45,6 +46,11 @@ GoRouter createRouter() {
         path: AppRoutes.home,
         name: 'home',
         builder: (context, state) => const HomeShell(),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        name: 'settings',
+        builder: (context, state) => const SettingsScreen(),
       ),
     ],
   );

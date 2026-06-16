@@ -129,6 +129,24 @@
     "statusActive": "Active",
     "statusSold": "Sold",
 
+    "settingsTitle": "Settings",
+    "@settingsTitle": { "description": "Screen title of the Settings screen (screen 18)" },
+    "settingsSectionAccount": "Account",
+    "settingsEmailLabel": "Email",
+    "settingsChangePassword": "Change password",
+    "settingsSectionPrivacy": "Privacy & Safety",
+    "settingsLocationArea": "Location & area",
+    "settingsBlockedUsers": "Blocked users",
+    "settingsSectionNotifications": "Notifications",
+    "settingsNotifNewMessages": "New messages",
+    "settingsNotifReplies": "Replies to my threads",
+    "settingsSectionSupport": "Support",
+    "settingsSendFeedback": "Send feedback",
+    "settingsWhatsNew": "What's new",
+    "settingsValueNotSet": "Not set",
+    "@settingsValueNotSet": { "description": "Placeholder shown for a settings row whose value is unknown" },
+    "settingsLogOut": "Log out",
+
     "retryButton": "Retry",
     "genericErrorMessage": "Something went wrong. Please try again."
 }
