@@ -41,6 +41,7 @@ import 'package:ridemates/features/profile/domain/usecases/update_profile_usecas
 import 'package:ridemates/features/profile/domain/usecases/upload_avatar_usecase.dart';
 import 'package:ridemates/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:ridemates/features/profile/presentation/bloc/profile_setup/profile_setup_bloc.dart';
+import 'package:ridemates/features/profile/presentation/cubit/current_user_cubit.dart';
 
 /// Global service locator.
 final GetIt getIt = GetIt.instance;
@@ -130,6 +131,11 @@ Future<void> configureDependencies() async {
     ..registerFactory<UploadAvatarUseCase>(
       () => UploadAvatarUseCase(getIt<ProfileRepository>()),
     )
+    // Shared, persisted (hive_ce) source of the signed-in user's `/me`,
+    // consumed by Profile, Settings and any other screen — loaded once.
+    ..registerLazySingleton<CurrentUserCubit>(
+      () => CurrentUserCubit(getIt<GetMyProfileUseCase>()),
+    )
     ..registerLazySingleton<ImagePickService>(ImagePickService.new)
     ..registerFactory<ProfileSetupBloc>(
       () => ProfileSetupBloc(
@@ -141,7 +147,7 @@ Future<void> configureDependencies() async {
     )
     ..registerFactory<ProfileBloc>(
       () => ProfileBloc(
-        getIt<GetMyProfileUseCase>(),
+        getIt<CurrentUserCubit>(),
         getIt<GetUserListingsUseCase>(),
       ),
     )

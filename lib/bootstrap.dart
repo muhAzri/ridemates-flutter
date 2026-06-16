@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:ridemates/core/di/injection.dart';
 import 'package:ridemates/core/firebase/firebase_bootstrap.dart';
 import 'package:ridemates/core/notifications/fcm_background_handler.dart';
@@ -36,6 +37,15 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   Bloc.observer = const AppBlocObserver();
+
+  // Persisted bloc/cubit state (e.g. the signed-in user's /me snapshot) lives
+  // in a hive_ce box under the app documents dir — hydrated_bloc is hive_ce
+  // backed, so screens can read the last-known profile instantly on cold start.
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: HydratedStorageDirectory(
+      (await getApplicationDocumentsDirectory()).path,
+    ),
+  );
 
   await configureDependencies();
 

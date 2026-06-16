@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ridemates/core/theme/theme.dart';
 import 'package:ridemates/features/chat/presentation/screens/chats_list_screen.dart';
 import 'package:ridemates/features/forum/presentation/screens/forum_screen.dart';
 import 'package:ridemates/features/home/presentation/widgets/home_bottom_nav.dart';
 import 'package:ridemates/features/home/presentation/widgets/home_tab.dart';
 import 'package:ridemates/features/marketplace/presentation/screens/browse_screen.dart';
+import 'package:ridemates/features/profile/presentation/cubit/current_user_cubit.dart';
 import 'package:ridemates/features/profile/presentation/screens/profile_screen.dart';
 import 'package:ridemates/l10n/l10n.dart';
 
@@ -21,6 +25,14 @@ class HomeShell extends StatefulWidget {
 
 class _HomeShellState extends State<HomeShell> {
   HomeTab _current = HomeTab.market;
+
+  @override
+  void initState() {
+    super.initState();
+    // Warm the shared profile store once on entering the app — Profile,
+    // Settings et al. then read it without each firing `/me`.
+    unawaited(context.read<CurrentUserCubit>().ensureLoaded());
+  }
 
   static const _tabs = <HomeTab>[
     HomeTab.market,

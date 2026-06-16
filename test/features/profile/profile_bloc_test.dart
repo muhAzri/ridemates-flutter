@@ -1,20 +1,20 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:ridemates/core/network/api_exception.dart';
 import 'package:ridemates/features/profile/domain/entities/listing_status.dart';
 import 'package:ridemates/features/profile/domain/entities/profile_listing.dart';
 import 'package:ridemates/features/profile/domain/entities/user_profile.dart';
-import 'package:ridemates/features/profile/domain/usecases/get_my_profile_usecase.dart';
 import 'package:ridemates/features/profile/domain/usecases/get_user_listings_usecase.dart';
 import 'package:ridemates/features/profile/presentation/bloc/profile/profile_bloc.dart';
+import 'package:ridemates/features/profile/presentation/cubit/current_user_cubit.dart';
 
-class _MockGetMyProfile extends Mock implements GetMyProfileUseCase {}
+class _MockCurrentUserCubit extends MockCubit<CurrentUserState>
+    implements CurrentUserCubit {}
 
 class _MockGetUserListings extends Mock implements GetUserListingsUseCase {}
 
 void main() {
-  late _MockGetMyProfile getMyProfile;
+  late _MockCurrentUserCubit currentUser;
   late _MockGetUserListings getUserListings;
 
   const profile = UserProfile(
@@ -33,17 +33,21 @@ void main() {
   ];
 
   setUp(() {
-    getMyProfile = _MockGetMyProfile();
+    currentUser = _MockCurrentUserCubit();
     getUserListings = _MockGetUserListings();
+    when(() => currentUser.ensureLoaded()).thenAnswer((_) async {});
+    when(() => currentUser.refresh()).thenAnswer((_) async {});
   });
 
-  ProfileBloc build() => ProfileBloc(getMyProfile, getUserListings);
+  ProfileBloc build() => ProfileBloc(currentUser, getUserListings);
 
   group('ProfileBloc', () {
     blocTest<ProfileBloc, ProfileState>(
-      'loads the profile then its listings on started',
+      'loads the shared profile then its listings on started',
       setUp: () {
-        when(() => getMyProfile()).thenAnswer((_) async => profile);
+        when(() => currentUser.state).thenReturn(
+          const CurrentUserState(user: profile),
+        );
         when(() => getUserListings(any())).thenAnswer((_) async => listings);
       },
       build: build,
@@ -56,13 +60,16 @@ void main() {
           listings: listings,
         ),
       ],
-      verify: (_) => verify(() => getUserListings('usr_1')).called(1),
+      verify: (_) {
+        verify(() => currentUser.ensureLoaded()).called(1);
+        verify(() => getUserListings('usr_1')).called(1);
+      },
     );
 
     blocTest<ProfileBloc, ProfileState>(
-      'emits failure with the API message when the profile load fails',
-      setUp: () => when(() => getMyProfile()).thenThrow(
-        const ApiException(message: 'Could not load profile.'),
+      'emits failure with the store message when the profile is unavailable',
+      setUp: () => when(() => currentUser.state).thenReturn(
+        const CurrentUserState(errorMessage: 'Could not load profile.'),
       ),
       build: build,
       act: (bloc) => bloc.add(const ProfileEvent.started()),
@@ -78,7 +85,9 @@ void main() {
     blocTest<ProfileBloc, ProfileState>(
       'degrades to an empty grid when only the listings call fails',
       setUp: () {
-        when(() => getMyProfile()).thenAnswer((_) async => profile);
+        when(() => currentUser.state).thenReturn(
+          const CurrentUserState(user: profile),
+        );
         when(() => getUserListings(any())).thenThrow(Exception('boom'));
       },
       build: build,
@@ -87,6 +96,22 @@ void main() {
         ProfileState(),
         ProfileState(status: ProfileStatus.success, profile: profile),
       ],
+    );
+
+    blocTest<ProfileBloc, ProfileState>(
+      'forces a store refresh on pull-to-refresh',
+      setUp: () {
+        when(() => currentUser.state).thenReturn(
+          const CurrentUserState(user: profile),
+        );
+        when(() => getUserListings(any())).thenAnswer((_) async => listings);
+      },
+      build: build,
+      act: (bloc) => bloc.add(const ProfileEvent.refreshed()),
+      verify: (_) {
+        verify(() => currentUser.refresh()).called(1);
+        verifyNever(() => currentUser.ensureLoaded());
+      },
     );
   });
 }
