@@ -8,6 +8,7 @@ abstract class UserProfileModel with _$UserProfileModel {
   const factory UserProfileModel({
     required String id,
     required String displayName,
+    String? email,
     String? bio,
     String? cyclingType,
     String? avatarUrl,

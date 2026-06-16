@@ -10,6 +10,7 @@ _UserProfileModel _$UserProfileModelFromJson(Map<String, dynamic> json) =>
     _UserProfileModel(
       id: json['id'] as String,
       displayName: json['displayName'] as String,
+      email: json['email'] as String?,
       bio: json['bio'] as String?,
       cyclingType: json['cyclingType'] as String?,
       avatarUrl: json['avatarUrl'] as String?,
@@ -22,6 +23,7 @@ Map<String, dynamic> _$UserProfileModelToJson(_UserProfileModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'displayName': instance.displayName,
+      'email': instance.email,
       'bio': instance.bio,
       'cyclingType': instance.cyclingType,
       'avatarUrl': instance.avatarUrl,

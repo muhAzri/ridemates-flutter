@@ -9,6 +9,7 @@ extension UserProfileModelMapper on UserProfileModel {
   UserProfile toEntity() => UserProfile(
     id: id,
     displayName: displayName,
+    email: email,
     bio: bio,
     cyclingType: CyclingType.fromApiValue(cyclingType),
     avatarUrl: avatarUrl,

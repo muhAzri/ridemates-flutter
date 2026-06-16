@@ -5,6 +5,7 @@ class UserProfile {
   const UserProfile({
     required this.id,
     required this.displayName,
+    this.email,
     this.bio,
     this.cyclingType,
     this.avatarUrl,
@@ -15,6 +16,10 @@ class UserProfile {
 
   final String id;
   final String displayName;
+
+  /// Self projection only — never present on the public projection (§17.1).
+  final String? email;
+
   final String? bio;
   final CyclingType? cyclingType;
   final String? avatarUrl;
