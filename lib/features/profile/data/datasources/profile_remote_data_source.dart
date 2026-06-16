@@ -46,19 +46,43 @@ class ProfileRemoteDataSource {
     }
   }
 
+  /// Avatar upload is **pre-signed / direct-to-storage** (API_CONTRACT.md R16),
+  /// so the WebP bytes go straight to the object store and never transit the
+  /// API server. Three steps: (1) ask the API for a pre-signed PUT, (2) upload
+  /// the bytes to that URL, (3) confirm so the server records the avatar URL.
   Future<String?> uploadAvatar(Uint8List webpBytes) async {
     try {
-      final form = FormData.fromMap({
-        'file': MultipartFile.fromBytes(
-          webpBytes,
-          filename: 'avatar.webp',
-          contentType: DioMediaType('image', 'webp'),
-        ),
-      });
-      final res = await _dio.post<Map<String, dynamic>>(
-        '/users/me/avatar',
-        data: form,
+      // Step 1 — pre-signed PUT for this content type.
+      final issued = await _dio.post<Map<String, dynamic>>(
+        '/users/me/avatar/upload-url',
+        data: <String, dynamic>{'contentType': 'image/webp'},
       );
+      final uploadUrl = issued.data!['uploadUrl'] as String;
+      final rawHeaders =
+          issued.data!['headers'] as Map<String, dynamic>? ??
+          <String, dynamic>{};
+      final signedHeaders = rawHeaders.map(
+        (key, value) => MapEntry(key, value.toString()),
+      );
+
+      // Step 2 — upload bytes straight to storage. A bare Dio is used so the
+      // API client's baseUrl and auth interceptor don't touch the signed S3
+      // request (an extra Authorization header would clash with the
+      // query-string auth). The signed `headers` (e.g. x-amz-acl) go verbatim.
+      await Dio().put<void>(
+        uploadUrl,
+        data: Stream<List<int>>.fromIterable(<List<int>>[webpBytes]),
+        options: Options(
+          contentType: 'image/webp',
+          headers: <String, dynamic>{
+            ...signedHeaders,
+            Headers.contentLengthHeader: webpBytes.length,
+          },
+        ),
+      );
+
+      // Step 3 — confirm; the server validates the object and returns its URL.
+      final res = await _dio.put<Map<String, dynamic>>('/users/me/avatar');
       return res.data?['avatarUrl'] as String?;
     } on DioException catch (e) {
       throw _toApiException(e);
