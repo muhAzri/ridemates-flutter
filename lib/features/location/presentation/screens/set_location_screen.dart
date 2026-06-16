@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -8,6 +10,7 @@ import 'package:ridemates/core/theme/theme.dart';
 import 'package:ridemates/features/location/presentation/bloc/set_location/set_location_bloc.dart';
 import 'package:ridemates/features/location/presentation/widgets/location_confirm_sheet.dart';
 import 'package:ridemates/features/location/presentation/widgets/location_map.dart';
+import 'package:ridemates/features/profile/presentation/cubit/current_user_cubit.dart';
 import 'package:ridemates/l10n/l10n.dart';
 
 /// Screen 04 — Pin your location. An OpenStreetMap map with a centre pin the
@@ -37,6 +40,19 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
     }
   }
 
+  /// Where to go after the pin is saved. When this screen was *pushed* (e.g.
+  /// from Settings → "Location & area") we pop back to the caller and refresh
+  /// the shared profile so the new area shows immediately; during onboarding
+  /// (no back stack) we continue into the home shell.
+  void _onSaved(BuildContext context) {
+    if (context.canPop()) {
+      unawaited(context.read<CurrentUserCubit>().refresh());
+      context.pop();
+    } else {
+      context.go(AppRoutes.home);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
@@ -62,7 +78,7 @@ class _SetLocationScreenState extends State<SetLocationScreen> {
                   listenWhen: (p, c) => p.status != c.status,
                   listener: (context, state) {
                     if (state.status.isSuccess) {
-                      context.go(AppRoutes.home);
+                      _onSaved(context);
                     } else if (state.status.isFailure) {
                       final message =
                           state.errorMessage ?? l10n.setLocationFailedMessage;
