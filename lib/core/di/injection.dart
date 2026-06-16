@@ -42,6 +42,12 @@ import 'package:ridemates/features/profile/domain/usecases/upload_avatar_usecase
 import 'package:ridemates/features/profile/presentation/bloc/profile/profile_bloc.dart';
 import 'package:ridemates/features/profile/presentation/bloc/profile_setup/profile_setup_bloc.dart';
 import 'package:ridemates/features/profile/presentation/cubit/current_user_cubit.dart';
+import 'package:ridemates/features/settings/data/datasources/settings_remote_data_source.dart';
+import 'package:ridemates/features/settings/data/repositories/settings_repository_impl.dart';
+import 'package:ridemates/features/settings/domain/repositories/settings_repository.dart';
+import 'package:ridemates/features/settings/domain/usecases/get_notification_preferences_usecase.dart';
+import 'package:ridemates/features/settings/domain/usecases/update_notification_preferences_usecase.dart';
+import 'package:ridemates/features/settings/presentation/cubit/notification_preferences_cubit.dart';
 
 /// Global service locator.
 final GetIt getIt = GetIt.instance;
@@ -174,6 +180,26 @@ Future<void> configureDependencies() async {
         getIt<DeviceLocationService>(),
         getIt<ResolveAreaUseCase>(),
         getIt<SetMyLocationUseCase>(),
+      ),
+    )
+    // --- Settings feature --------------------------------------------------
+    ..registerLazySingleton<SettingsRemoteDataSource>(
+      () => SettingsRemoteDataSource(getIt<Dio>()),
+    )
+    ..registerLazySingleton<SettingsRepository>(
+      () => SettingsRepositoryImpl(getIt<SettingsRemoteDataSource>()),
+    )
+    ..registerFactory<GetNotificationPreferencesUseCase>(
+      () => GetNotificationPreferencesUseCase(getIt<SettingsRepository>()),
+    )
+    ..registerFactory<UpdateNotificationPreferencesUseCase>(
+      () => UpdateNotificationPreferencesUseCase(getIt<SettingsRepository>()),
+    )
+    // New cubit per Settings open → toggles are always fetched fresh.
+    ..registerFactory<NotificationPreferencesCubit>(
+      () => NotificationPreferencesCubit(
+        getIt<GetNotificationPreferencesUseCase>(),
+        getIt<UpdateNotificationPreferencesUseCase>(),
       ),
     );
 }
