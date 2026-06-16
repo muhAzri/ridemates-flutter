@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:flutter_image_compress_lite/flutter_image_compress_lite.dart';
 import 'package:image_picker/image_picker.dart';
 
 /// Picks an image and compresses it aggressively to WebP.
