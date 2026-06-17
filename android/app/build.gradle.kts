@@ -20,7 +20,9 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.zrifapps.ridemates"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_image_compress_lite requires Android SDK 37+; compileSdk is
+    // backward-compatible, so take the higher of Flutter's default and 37.
+    compileSdk = maxOf(flutter.compileSdkVersion, 37)
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -109,6 +111,6 @@ flutter {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.20")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
