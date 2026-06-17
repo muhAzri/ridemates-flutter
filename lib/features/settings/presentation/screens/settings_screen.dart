@@ -49,6 +49,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.dispose();
   }
 
+  /// Ask before signing out — logout clears the session, so it shouldn't
+  /// fire on a stray tap. Proceeds only when the user confirms.
+  Future<void> _confirmLogout() async {
+    final l10n = context.l10n;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(l10n.settingsLogOutConfirmTitle),
+        content: Text(l10n.settingsLogOutConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(l10n.settingsLogOutCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            style: TextButton.styleFrom(foregroundColor: AppColors.error),
+            child: Text(l10n.settingsLogOut),
+          ),
+        ],
+      ),
+    );
+    if (confirmed ?? false) await _logout();
+  }
+
   Future<void> _logout() async {
     await context.read<CurrentUserCubit>().signOut();
     await getIt<TokenStorage>().clearTokens();
@@ -158,7 +183,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ],
                       ),
                       const SizedBox(height: 6),
-                      _LogoutRow(label: l10n.settingsLogOut, onTap: _logout),
+                      _LogoutRow(
+                        label: l10n.settingsLogOut,
+                        onTap: _confirmLogout,
+                      ),
                     ],
                   ),
                 ),

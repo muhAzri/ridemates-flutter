@@ -146,6 +146,12 @@
     "settingsValueNotSet": "Not set",
     "@settingsValueNotSet": { "description": "Placeholder shown for a settings row whose value is unknown" },
     "settingsLogOut": "Log out",
+    "settingsLogOutConfirmTitle": "Log out?",
+    "@settingsLogOutConfirmTitle": { "description": "Title of the log-out confirmation dialog" },
+    "settingsLogOutConfirmMessage": "You'll need to sign in again to use RideMates.",
+    "@settingsLogOutConfirmMessage": { "description": "Body of the log-out confirmation dialog" },
+    "settingsLogOutCancel": "Cancel",
+    "@settingsLogOutCancel": { "description": "Dismiss action on the log-out confirmation dialog" },
 
     "retryButton": "Retry",
     "genericErrorMessage": "Something went wrong. Please try again."
