@@ -13,7 +13,7 @@ dependencies:
   equatable: ^2.0.8
   eventflux: ^2.2.1
   firebase_analytics: ^12.4.2
-  firebase_core: ^4.10.0
+  firebase_core: ^4.11.0
   firebase_crashlytics: ^5.2.3
   firebase_messaging: ^16.3.0
   firebase_performance: ^0.11.4+2
